@@ -34,7 +34,7 @@ PromptFlow is an open-source, local-first AI Agent Builder Platform that allows 
 
 1. Clone the repository
 ```bash
-git clone <repository-url>
+git clone <https://github.com/prajjwal-23/PromptFlow.git>
 cd PromptFlow
 ```
 
