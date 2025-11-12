@@ -22,10 +22,10 @@ setup_logging()
 async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     # Startup
-    print("🚀 Starting PromptFlow API...")
+    print("Starting PromptFlow API...")
     yield
     # Shutdown
-    print("🛑 Shutting down PromptFlow API...")
+    print("Shutting down PromptFlow API...")
 
 
 # Create FastAPI application

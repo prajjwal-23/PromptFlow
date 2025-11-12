@@ -1,4 +1,4 @@
-.PHONY: help setup install dev dev-backend dev-frontend test lint clean build push logs
+.PHONY: help setup install dev dev-backend dev-frontend test test-backend test-backend-specific test-backend-coverage test-auth test-workspaces test-agents test-frontend test-e2e lint lint-backend lint-frontend lint-fix clean build shell shell-frontend db-migrate db-seed db-reset health restart-backend restart-frontend pull-latest backup-db prod-build prod-deploy logs logs-backend logs-frontend
 
 # Default target
 help:
@@ -15,12 +15,18 @@ help:
 	@echo "  logs       - Show logs from all services"
 	@echo ""
 	@echo "Testing Commands:"
-	@echo "  test       - Run all tests"
-	@echo "  test-backend- Run backend tests"
-	@echo "  test-frontend- Run frontend tests"
-	@echo "  lint       - Run linting on all code"
-	@echo "  lint-backend- Lint backend code"
-	@echo "  lint-frontend- Lint frontend code"
+	@echo "  test              - Run all tests"
+	@echo "  test-backend      - Run backend tests with coverage"
+	@echo "  test-backend-specific - Run specific test file (FILE=tests/test_file.py)"
+	@echo "  test-backend-coverage - Run backend tests with HTML coverage report"
+	@echo "  test-auth         - Run authentication tests only"
+	@echo "  test-workspaces   - Run workspace tests only"
+	@echo "  test-agents       - Run agent tests only"
+	@echo "  test-frontend     - Run frontend tests"
+	@echo "  test-e2e          - Run end-to-end tests"
+	@echo "  lint              - Run linting on all code"
+	@echo "  lint-backend      - Lint backend code"
+	@echo "  lint-frontend     - Lint frontend code"
 	@echo ""
 	@echo "Utility Commands:"
 	@echo "  clean      - Clean all caches and containers"
@@ -76,7 +82,29 @@ test:
 
 test-backend:
 	@echo "🐍 Running backend tests..."
-	docker-compose run --rm backend pytest -v
+	docker-compose run --rm backend pytest -v --cov=app --cov-report=term-missing
+
+test-backend-specific:
+	@echo "🐍 Running specific backend test file..."
+	@if [ -z "$(FILE)" ]; then echo "❌ Please specify FILE=tests/test_file.py"; exit 1; fi
+	docker-compose run --rm backend pytest $(FILE) -v
+
+test-backend-coverage:
+	@echo "🐍 Running backend tests with coverage report..."
+	docker-compose run --rm backend pytest --cov=app --cov-report=html:htmlcov --cov-report=term-missing
+	@echo "📊 Coverage report generated in htmlcov/"
+
+test-auth:
+	@echo "🔐 Running authentication tests..."
+	docker-compose run --rm backend pytest tests/test_auth.py -v -m auth
+
+test-workspaces:
+	@echo "🏢 Running workspace tests..."
+	docker-compose run --rm backend pytest tests/test_workspaces.py -v -m workspace
+
+test-agents:
+	@echo "🤖 Running agent tests..."
+	docker-compose run --rm backend pytest tests/test_agents.py -v -m agent
 
 test-frontend:
 	@echo "⚛️ Running frontend tests..."
