@@ -7,12 +7,12 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useAuthStore } from '../../store/authStore';
-import { useWorkspaceStore } from '../../store/workspaceStore';
-import { useAgentStore } from '../../store/agentStore';
-import { useCanvasStore } from '../../store/canvasStore';
-import { ProtectedRoute } from '../../components/ProtectedRoute';
-import { AgentCanvas } from '../../components/Canvas/AgentCanvas';
+import { useAuthStore } from '../../../store/authStore';
+import { useWorkspaceStore } from '../../../store/workspaceStore';
+import { useAgentStore } from '../../../store/agentStore';
+import { useCanvasStore } from '../../../store/canvasStore';
+import { ProtectedRoute } from '../../../components/ProtectedRoute';
+import { AgentCanvas } from '../../../components/Canvas/AgentCanvas';
 
 export default function AgentEditorPage() {
   const router = useRouter();

@@ -8,9 +8,9 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from './store/authStore';
-import { useWorkspaceStore } from './store/workspaceStore';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { useAuthStore } from '../store/authStore';
+import { useWorkspaceStore } from '../store/workspaceStore';
+import { ProtectedRoute } from '../components/ProtectedRoute';
 
 export default function HomePage() {
   const router = useRouter();

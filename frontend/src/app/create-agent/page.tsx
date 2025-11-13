@@ -6,10 +6,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useWorkspaceStore } from '../store/workspaceStore';
-import { useAgentStore } from '../store/agentStore';
-import { ProtectedRoute } from '../components/ProtectedRoute';
-import { AgentForm } from '../components/Agent/AgentForm';
+import { useWorkspaceStore } from '../../store/workspaceStore';
+import { useAgentStore } from '../../store/agentStore';
+import { ProtectedRoute } from '../../components/ProtectedRoute';
+import { AgentForm } from '../../components/Agent/AgentForm';
 
 export default function CreateAgentPage() {
   const router = useRouter();

@@ -7,9 +7,9 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../store/authStore';
-import { AuthLayout } from '../components/Auth/AuthLayout';
-import { RegisterForm } from '../components/Auth/RegisterForm';
+import { useAuthStore } from '../../store/authStore';
+import { AuthLayout } from '../../components/Auth/AuthLayout';
+import { RegisterForm } from '../../components/Auth/RegisterForm';
 
 export default function RegisterPage() {
   const router = useRouter();

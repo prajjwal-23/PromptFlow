@@ -7,9 +7,9 @@
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuthStore } from '../store/authStore';
-import { AuthLayout } from '../components/Auth/AuthLayout';
-import { LoginForm } from '../components/Auth/LoginForm';
+import { useAuthStore } from '../../store/authStore';
+import { AuthLayout } from '../../components/Auth/AuthLayout';
+import { LoginForm } from '../../components/Auth/LoginForm';
 
 export default function LoginPage() {
   const router = useRouter();

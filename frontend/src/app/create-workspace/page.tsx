@@ -6,9 +6,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useWorkspaceStore } from '../store/workspaceStore';
-import { ProtectedRoute } from '../components/ProtectedRoute';
-import { WorkspaceForm } from '../components/Workspace/WorkspaceForm';
+import { useWorkspaceStore } from '../../store/workspaceStore';
+import { ProtectedRoute } from '../../components/ProtectedRoute';
+import { WorkspaceForm } from '../../components/Workspace/WorkspaceForm';
 
 export default function CreateWorkspacePage() {
   const router = useRouter();

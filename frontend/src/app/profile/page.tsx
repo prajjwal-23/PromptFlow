@@ -7,9 +7,9 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../store/authStore';
-import { ProtectedRoute } from '../components/ProtectedRoute';
-import { ProfileForm } from '../components/Auth/ProfileForm';
+import { useAuthStore } from '../../store/authStore';
+import { ProtectedRoute } from '../../components/ProtectedRoute';
+import { ProfileForm } from '../../components/Auth/ProfileForm';
 
 export default function ProfilePage() {
   const router = useRouter();

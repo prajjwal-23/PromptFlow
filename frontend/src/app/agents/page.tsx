@@ -7,12 +7,12 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../store/authStore';
-import { useWorkspaceStore } from '../store/workspaceStore';
-import { useAgentStore, getAgentStatus, getAgentStatusColor } from '../store/agentStore';
-import { ProtectedRoute } from '../components/ProtectedRoute';
-import { AgentCard } from '../components/Agent/AgentCard';
-import { AgentForm } from '../components/Agent/AgentForm';
+import { useAuthStore } from '../../store/authStore';
+import { useWorkspaceStore } from '../../store/workspaceStore';
+import { useAgentStore, getAgentStatus, getAgentStatusColor } from '../../store/agentStore';
+import { ProtectedRoute } from '../../components/ProtectedRoute';
+import { AgentCard } from '../../components/Agent/AgentCard';
+import { AgentForm } from '../../components/Agent/AgentForm';
 
 export default function AgentsPage() {
   const router = useRouter();

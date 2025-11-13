@@ -7,12 +7,12 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../store/authStore';
-import { useWorkspaceStore } from '../store/workspaceStore';
-import { useAgentStore } from '../store/agentStore';
-import { ProtectedRoute } from '../components/ProtectedRoute';
-import { WorkspaceCard } from '../components/Workspace/WorkspaceCard';
-import { AgentCard } from '../components/Agent/AgentCard';
+import { useAuthStore } from '../../store/authStore';
+import { useWorkspaceStore } from '../../store/workspaceStore';
+import { useAgentStore } from '../../store/agentStore';
+import { ProtectedRoute } from '../../components/ProtectedRoute';
+import { WorkspaceCard } from '../../components/Workspace/WorkspaceCard';
+import { AgentCard } from '../../components/Agent/AgentCard';
 
 export default function DashboardPage() {
   const router = useRouter();

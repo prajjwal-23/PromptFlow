@@ -7,11 +7,11 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../store/authStore';
-import { useWorkspaceStore } from '../store/workspaceStore';
-import { ProtectedRoute } from '../components/ProtectedRoute';
-import { WorkspaceCard } from '../components/Workspace/WorkspaceCard';
-import { WorkspaceForm } from '../components/Workspace/WorkspaceForm';
+import { useAuthStore } from '../../store/authStore';
+import { useWorkspaceStore } from '../../store/workspaceStore';
+import { ProtectedRoute } from '../../components/ProtectedRoute';
+import { WorkspaceCard } from '../../components/Workspace/WorkspaceCard';
+import { WorkspaceForm } from '../../components/Workspace/WorkspaceForm';
 
 export default function WorkspacesPage() {
   const router = useRouter();
