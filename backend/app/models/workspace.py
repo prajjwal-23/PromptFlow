@@ -41,6 +41,7 @@ class Workspace(Base):
     creator = relationship("User", back_populates="created_workspaces")
     memberships = relationship("Membership", back_populates="workspace", cascade="all, delete-orphan")
     agents = relationship("Agent", back_populates="workspace", cascade="all, delete-orphan")
+    datasets = relationship("Dataset", back_populates="workspace", cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<Workspace(id={self.id}, name={self.name})>"

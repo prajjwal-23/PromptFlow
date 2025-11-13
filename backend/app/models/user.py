@@ -64,3 +64,6 @@ class User(Base):
     created_workspaces = relationship("Workspace", back_populates="creator", cascade="all, delete-orphan")
     memberships = relationship("Membership", back_populates="user", cascade="all, delete-orphan")
     agents = relationship("Agent", back_populates="creator", cascade="all, delete-orphan")
+    datasets = relationship("Dataset", back_populates="creator", cascade="all, delete-orphan")
+    runs = relationship("Run", back_populates="creator", cascade="all, delete-orphan")
+    documents = relationship("Document", back_populates="creator", cascade="all, delete-orphan")

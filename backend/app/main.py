@@ -14,6 +14,9 @@ from app.core.database import engine, Base
 from app.core.logging import setup_logging
 from app.middleware.rate_limit import RateLimitMiddleware
 
+# Import all models to ensure they are registered with SQLAlchemy
+from app.models import User, Workspace, Agent, Dataset, Run, RunEvent  # noqa
+
 
 # Setup logging
 setup_logging()

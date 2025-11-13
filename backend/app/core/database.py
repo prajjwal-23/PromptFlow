@@ -36,7 +36,7 @@ def get_db():
 async def init_db():
     """Initialize database with all tables."""
     # Import all models to ensure they are registered
-    from app.models import user, workspace, agent, dataset, run  # noqa
+    from app.models import User, Workspace, Agent, Dataset, Run, RunEvent  # noqa
     
     # Create all tables
     Base.metadata.create_all(bind=engine)
