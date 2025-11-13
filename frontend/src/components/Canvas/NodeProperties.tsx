@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { Node } from 'reactflow';
-import { nodeTypes } from '../../store/canvasStore';
+import { nodeTypes, getDefaultNodeConfig } from '../../store/canvasStore';
 
 interface NodePropertiesProps {
   node: Node;
@@ -22,17 +22,24 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
 
   useEffect(() => {
     // Initialize form data with node's current data
+    // Ensure config is always defined with default values
+    const defaultConfig = node.type ? getDefaultNodeConfig(node.type) : {};
+    const existingConfig = node.data.config || {};
+    
     setFormData({
       label: node.data.label || '',
-      config: node.data.config || {},
+      config: {
+        ...defaultConfig,
+        ...existingConfig,
+      },
     });
-  }, [node.data]);
+  }, [node.data, node.type]);
 
   const handleChange = (field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
       config: {
-        ...prev.config,
+        ...(prev.config || {}),
         [field]: value,
       },
     }));
@@ -59,28 +66,28 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
     // Validate based on node type
     switch (node.type) {
       case 'input':
-        if (!formData.config.placeholder?.trim()) {
+        if (!formData.config || !formData.config.placeholder?.trim()) {
           errors.placeholder = 'Placeholder is required';
         }
         break;
       case 'llm':
-        if (!formData.config.model?.trim()) {
+        if (!formData.config || !formData.config.model?.trim()) {
           errors.model = 'Model selection is required';
         }
-        if (formData.config.temperature && (formData.config.temperature < 0 || formData.config.temperature > 2)) {
+        if (formData.config && formData.config.temperature && (formData.config.temperature < 0 || formData.config.temperature > 2)) {
           errors.temperature = 'Temperature must be between 0 and 2';
         }
         break;
       case 'retrieval':
-        if (!formData.config.collection?.trim()) {
+        if (!formData.config || !formData.config.collection?.trim()) {
           errors.collection = 'Collection name is required';
         }
-        if (formData.config.maxResults && (formData.config.maxResults < 1 || formData.config.maxResults > 100)) {
+        if (formData.config && formData.config.maxResults && (formData.config.maxResults < 1 || formData.config.maxResults > 100)) {
           errors.maxResults = 'Max results must be between 1 and 100';
         }
         break;
       case 'tool':
-        if (!formData.config.endpoint?.trim()) {
+        if (!formData.config || !formData.config.endpoint?.trim()) {
           errors.endpoint = 'Endpoint URL is required';
         }
         break;
@@ -108,7 +115,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 Input Type
               </label>
               <select
-                value={formData.config.inputType || 'text'}
+                value={(formData.config && formData.config.inputType) || 'text'}
                 onChange={(e) => handleChange('inputType', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
               >
@@ -126,7 +133,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
               </label>
               <input
                 type="text"
-                value={formData.config.placeholder || ''}
+                value={(formData.config && formData.config.placeholder) || ''}
                 onChange={(e) => handleChange('placeholder', e.target.value)}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
                   formErrors.placeholder ? 'border-red-300' : 'border-gray-300'
@@ -142,7 +149,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
               <input
                 type="checkbox"
                 id="required"
-                checked={formData.config.required || false}
+                checked={(formData.config && formData.config.required) || false}
                 onChange={(e) => handleChange('required', e.target.checked)}
                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
               />
@@ -161,7 +168,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 Model
               </label>
               <select
-                value={formData.config.model || 'gpt-3.5-turbo'}
+                value={(formData.config && formData.config.model) || 'gpt-3.5-turbo'}
                 onChange={(e) => handleChange('model', e.target.value)}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
                   formErrors.model ? 'border-red-300' : 'border-gray-300'
@@ -180,14 +187,14 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Temperature: {formData.config.temperature || 0.7}
+                Temperature: {(formData.config && formData.config.temperature) || 0.7}
               </label>
               <input
                 type="range"
                 min="0"
                 max="2"
                 step="0.1"
-                value={formData.config.temperature || 0.7}
+                value={(formData.config && formData.config.temperature) || 0.7}
                 onChange={(e) => handleChange('temperature', parseFloat(e.target.value))}
                 className="w-full"
               />
@@ -204,7 +211,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 type="number"
                 min="1"
                 max="4000"
-                value={formData.config.maxTokens || 1000}
+                value={(formData.config && formData.config.maxTokens) || 1000}
                 onChange={(e) => handleChange('maxTokens', parseInt(e.target.value))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
               />
@@ -216,7 +223,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
               </label>
               <textarea
                 rows={4}
-                value={formData.config.systemPrompt || ''}
+                value={(formData.config && formData.config.systemPrompt) || ''}
                 onChange={(e) => handleChange('systemPrompt', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
                 placeholder="Enter system prompt..."
@@ -234,7 +241,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
               </label>
               <input
                 type="text"
-                value={formData.config.collection || ''}
+                value={(formData.config && formData.config.collection) || ''}
                 onChange={(e) => handleChange('collection', e.target.value)}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
                   formErrors.collection ? 'border-red-300' : 'border-gray-300'
@@ -254,7 +261,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 type="number"
                 min="1"
                 max="100"
-                value={formData.config.maxResults || 5}
+                value={(formData.config && formData.config.maxResults) || 5}
                 onChange={(e) => handleChange('maxResults', parseInt(e.target.value))}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
                   formErrors.maxResults ? 'border-red-300' : 'border-gray-300'
@@ -267,14 +274,14 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Similarity Threshold: {formData.config.similarityThreshold || 0.7}
+                Similarity Threshold: {(formData.config && formData.config.similarityThreshold) || 0.7}
               </label>
               <input
                 type="range"
                 min="0"
                 max="1"
                 step="0.1"
-                value={formData.config.similarityThreshold || 0.7}
+                value={(formData.config && formData.config.similarityThreshold) || 0.7}
                 onChange={(e) => handleChange('similarityThreshold', parseFloat(e.target.value))}
                 className="w-full"
               />
@@ -290,7 +297,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 Output Type
               </label>
               <select
-                value={formData.config.outputType || 'text'}
+                value={(formData.config && formData.config.outputType) || 'text'}
                 onChange={(e) => handleChange('outputType', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
               >
@@ -306,7 +313,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 Format
               </label>
               <select
-                value={formData.config.format || 'plain'}
+                value={(formData.config && formData.config.format) || 'plain'}
                 onChange={(e) => handleChange('format', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
               >
@@ -326,7 +333,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 Tool Type
               </label>
               <select
-                value={formData.config.toolType || 'api'}
+                value={(formData.config && formData.config.toolType) || 'api'}
                 onChange={(e) => handleChange('toolType', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
               >
@@ -342,7 +349,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
               </label>
               <input
                 type="url"
-                value={formData.config.endpoint || ''}
+                value={(formData.config && formData.config.endpoint) || ''}
                 onChange={(e) => handleChange('endpoint', e.target.value)}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
                   formErrors.endpoint ? 'border-red-300' : 'border-gray-300'
@@ -359,7 +366,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 HTTP Method
               </label>
               <select
-                value={formData.config.method || 'POST'}
+                value={(formData.config && formData.config.method) || 'POST'}
                 onChange={(e) => handleChange('method', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
               >

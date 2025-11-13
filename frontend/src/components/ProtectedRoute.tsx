@@ -25,7 +25,10 @@ export function ProtectedRoute({
 
   useEffect(() => {
     // Initialize auth state on mount
-    initializeAuth();
+    const initAuth = async () => {
+      await initializeAuth();
+    };
+    initAuth();
   }, []);
 
   useEffect(() => {
@@ -65,7 +68,10 @@ export function useRequireAuth() {
 
   useEffect(() => {
     // Initialize auth state on mount
-    initializeAuth();
+    const initAuth = async () => {
+      await initializeAuth();
+    };
+    initAuth();
   }, []);
 
   useEffect(() => {
@@ -85,7 +91,10 @@ export function withAuth<P extends object>(Component: React.ComponentType<P>) {
 
     useEffect(() => {
       // Initialize auth state on mount
-      initializeAuth();
+      const initAuth = async () => {
+        await initializeAuth();
+      };
+      initAuth();
     }, []);
 
     useEffect(() => {

@@ -4,7 +4,7 @@
  * This is the main canvas component for building agent workflows using React Flow.
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, {
   Node,
   Edge,
@@ -59,11 +59,21 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
     setShowProperties,
     addNode,
     updateNodeData,
+    deleteNode,
     saveGraph,
   } = useCanvasStore();
 
-  const [nodesState, setNodesState, onNodesChangeHandler] = useNodesState(nodes);
-  const [edgesState, setEdgesState, onEdgesChangeHandler] = useEdgesState(edges);
+  const [nodesState, setNodesState, onNodesChangeHandler] = useNodesState([]);
+  const [edgesState, setEdgesState, onEdgesChangeHandler] = useEdgesState([]);
+
+  // Sync React Flow state with store state
+  useEffect(() => {
+    setNodesState(nodes);
+  }, [nodes, setNodesState]);
+
+  useEffect(() => {
+    setEdgesState(edges);
+  }, [edges, setEdgesState]);
 
   // Update store when nodes change
   const handleNodesChange = useCallback(
@@ -95,7 +105,7 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
   // Handle node selection
   const onNodeClick = useCallback(
     (event: React.MouseEvent, node: Node) => {
-      if (!readOnly) {
+      if (!readOnly && node && node.id) {
         setSelectedNode(node);
         setShowProperties(true);
       }
@@ -113,7 +123,9 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
   const onNodeDragStop = useCallback(
     (event: React.MouseEvent, node: Node) => {
       // Update node position in store
-      updateNodeData(node.id, { position: node.position });
+      if (node && node.id && node.position) {
+        updateNodeData(node.id, { position: node.position });
+      }
     },
     [updateNodeData]
   );
@@ -125,6 +137,28 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
     },
     [addNode]
   );
+
+  // Handle keyboard events
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (readOnly) return;
+      
+      // Delete selected node with Backspace or Delete
+      if ((event.key === 'Backspace' || event.key === 'Delete') && selectedNode) {
+        event.preventDefault();
+        deleteNode(selectedNode.id);
+      }
+    },
+    [readOnly, selectedNode, deleteNode]
+  );
+
+  // Add keyboard event listener
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   // Memoize flow props
   const flowProps = useMemo(() => ({
@@ -175,6 +209,7 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
           <MiniMap 
             position="top-right"
             nodeColor={(node) => {
+              if (!node || !node.type) return '#6b7280';
               switch (node.type) {
                 case 'input': return '#10b981';
                 case 'llm': return '#3b82f6';
@@ -222,7 +257,7 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
       </div>
 
       {/* Node Properties Panel */}
-      {!readOnly && showProperties && selectedNode && (
+      {!readOnly && showProperties && selectedNode && selectedNode.id && (
         <div className="w-80 bg-white border-l border-gray-200 flex-shrink-0">
           <NodeProperties
             node={selectedNode}

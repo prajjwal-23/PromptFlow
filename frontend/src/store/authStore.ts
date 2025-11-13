@@ -269,17 +269,33 @@ export const isTokenExpired = (token: string | null): boolean => {
 };
 
 // Initialize auth state from persisted storage
-export const initializeAuth = () => {
+export const initializeAuth = async () => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+  const store = useAuthStore.getState();
+
+  // Set loading state
+  store.setLoading(true);
 
   if (accessToken && refreshToken) {
     if (isTokenExpired(accessToken)) {
       // Token expired, try to refresh
-      useAuthStore.getState().refreshAccessToken().catch(() => {
+      try {
+        await store.refreshAccessToken();
+        // Refresh successful, user is authenticated
+        store.setLoading(false);
+      } catch (error) {
         // Refresh failed, clear auth state
-        useAuthStore.getState().logout();
-      });
+        await store.logout();
+        store.setLoading(false);
+      }
+    } else {
+      // Token is valid, set authenticated state
+      store.setLoading(false);
+      // The persisted state should already have isAuthenticated: true
     }
+  } else {
+    // No tokens, set loading to false
+    store.setLoading(false);
   }
 };

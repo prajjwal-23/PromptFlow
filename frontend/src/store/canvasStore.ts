@@ -401,7 +401,7 @@ function applyEdgeChanges(changes: any[], edges: Edge[]): Edge[] {
   }, edges);
 }
 
-function getDefaultNodeConfig(type: string): any {
+export function getDefaultNodeConfig(type: string): any {
   switch (type) {
     case 'input':
       return {
