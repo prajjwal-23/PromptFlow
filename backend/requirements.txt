@@ -21,6 +21,7 @@ redis==5.0.1
 
 # HTTP Client
 httpx==0.25.2
+aiohttp==3.9.1
 aiofiles==23.2.1
 
 # Data Validation

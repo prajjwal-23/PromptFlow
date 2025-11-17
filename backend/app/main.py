@@ -14,6 +14,10 @@ from app.core.database import engine, Base
 from app.core.logging import setup_logging
 from app.middleware.rate_limit import RateLimitMiddleware
 
+# Import WebSocket components
+from app.websocket import websocket_router, websocket_manager, initialize_event_streamer
+from app.events import get_event_bus
+
 # Import all models to ensure they are registered with SQLAlchemy
 from app.models import User, Workspace, Agent, Dataset, Run, RunEvent  # noqa
 
@@ -26,9 +30,26 @@ async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     # Startup
     print("Starting PromptFlow API...")
+    
+    # Initialize WebSocket event streaming
+    try:
+        event_bus = get_event_bus()
+        initialize_event_streamer(websocket_manager, event_bus)
+        print("WebSocket event streaming initialized")
+    except Exception as e:
+        print(f"Failed to initialize WebSocket event streaming: {e}")
+    
     yield
+    
     # Shutdown
     print("Shutting down PromptFlow API...")
+    
+    # Shutdown WebSocket manager
+    try:
+        await websocket_manager.shutdown()
+        print("WebSocket manager shutdown complete")
+    except Exception as e:
+        print(f"Error during WebSocket shutdown: {e}")
 
 
 # Create FastAPI application
@@ -65,6 +86,9 @@ app.add_middleware(RateLimitMiddleware)
 # Include API router
 app.include_router(api_router, prefix="/api/v1")
 
+# Include WebSocket router
+app.include_router(websocket_router, prefix="/api/v1")
+
 
 # Root endpoint
 @app.get("/")
@@ -93,6 +117,8 @@ async def health_check():
                 "redis": "healthy",     # TODO: Add actual Redis health check
                 "minio": "healthy",     # TODO: Add actual MinIO health check
                 "qdrant": "healthy",    # TODO: Add actual Qdrant health check
+                "websocket": "healthy", # WebSocket manager is always healthy if running
+                "events": "healthy",    # Event bus is always healthy if running
             }
         }
     )
