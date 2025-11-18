@@ -47,8 +47,21 @@ class Settings(BaseSettings):
     
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+    REDIS_PASSWORD: Optional[str] = None
     CELERY_BROKER_URL: str = "redis://localhost:6379/1"
     CELERY_RESULT_BACKEND: str = "redis://localhost:6379/2"
+    
+    # Cache
+    CACHE_TTL: int = 3600  # 1 hour default TTL
+    
+    # Distributed Locks
+    LOCK_TTL: int = 30  # 30 seconds default lock TTL
+    
+    # Metrics
+    METRICS_RETENTION_DAYS: int = 30  # Keep metrics for 30 days
     
     # MinIO
     MINIO_ENDPOINT: str = "localhost:9000"
@@ -115,3 +128,8 @@ class Settings(BaseSettings):
 
 # Create global settings instance
 settings = Settings()
+
+
+def get_settings() -> Settings:
+    """Get the global settings instance."""
+    return settings

@@ -42,8 +42,14 @@ def get_database_url():
     if database_url:
         return database_url
     
-    # Fallback to config file
-    return config.get_main_option("sqlalchemy.url")
+    # Import from app config to ensure consistency
+    try:
+        from app.core.config import get_settings
+        settings = get_settings()
+        return settings.DATABASE_URL
+    except ImportError:
+        # Fallback to config file
+        return config.get_main_option("sqlalchemy.url")
 
 
 def run_migrations_offline() -> None:
@@ -89,10 +95,12 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, 
+            connection=connection,
             target_metadata=target_metadata,
             compare_type=True,
             compare_server_default=True,
+            # Add PostgreSQL-specific rendering for type conversions
+            render_as_batch=True,
         )
 
         with context.begin_transaction():

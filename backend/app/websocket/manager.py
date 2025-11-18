@@ -190,19 +190,30 @@ class WebSocketManager:
         # Background tasks
         self._cleanup_task: Optional[asyncio.Task] = None
         self._heartbeat_task: Optional[asyncio.Task] = None
-        
-        # Start background tasks
-        self._start_background_tasks()
+        self._tasks_started = False
     
     def _start_background_tasks(self) -> None:
         """Start background maintenance tasks."""
-        # Start heartbeat task
-        self._heartbeat_task = asyncio.create_task(self._heartbeat_loop())
-        
-        # Start cleanup task
-        self._cleanup_task = asyncio.create_task(self._cleanup_loop())
-        
-        self._logger.info("WebSocket manager background tasks started")
+        if self._tasks_started:
+            return
+            
+        try:
+            # Start heartbeat task
+            self._heartbeat_task = asyncio.create_task(self._heartbeat_loop())
+            
+            # Start cleanup task
+            self._cleanup_task = asyncio.create_task(self._cleanup_loop())
+            
+            self._tasks_started = True
+            self._logger.info("WebSocket manager background tasks started")
+        except RuntimeError:
+            # No event loop running, will start later when needed
+            self._logger.warning("No event loop running, background tasks will start later")
+    
+    async def _ensure_tasks_started(self) -> None:
+        """Ensure background tasks are started."""
+        if not self._tasks_started:
+            self._start_background_tasks()
     
     async def connect(
         self,
@@ -223,6 +234,9 @@ class WebSocketManager:
         Returns:
             Connection ID
         """
+        # Ensure background tasks are started
+        await self._ensure_tasks_started()
+        
         connection_id = str(uuid.uuid4())
         
         # Check connection limit
@@ -706,6 +720,29 @@ class WebSocketManager:
         
         return self._metrics
     
+    async def health_check(self) -> Dict[str, Any]:
+        """Perform health check on WebSocket manager."""
+        try:
+            metrics = self.get_metrics()
+            dead_letter_size = self._dead_letter_queue.size()
+            
+            return {
+                "status": "healthy",
+                "active_connections": metrics.active_connections,
+                "total_connections": metrics.total_connections,
+                "failed_connections": metrics.failed_connections,
+                "dead_letter_queue_size": dead_letter_size,
+                "background_tasks": {
+                    "heartbeat_task": self._heartbeat_task is not None and not self._heartbeat_task.done(),
+                    "cleanup_task": self._cleanup_task is not None and not self._cleanup_task.done()
+                }
+            }
+        except Exception as e:
+            return {
+                "status": "unhealthy",
+                "error": str(e)
+            }
+    
     async def get_connection_info(self, connection_id: str) -> Optional[Dict[str, Any]]:
         """Get information about a specific connection."""
         async with self._lock:
@@ -758,3 +795,13 @@ class WebSocketManager:
 
 # Global WebSocket manager instance
 websocket_manager = WebSocketManager()
+
+
+def get_websocket_manager() -> WebSocketManager:
+    """Get the global WebSocket manager instance."""
+    return websocket_manager
+
+
+def create_websocket_manager(config: Optional[WebSocketConfig] = None) -> WebSocketManager:
+    """Create a new WebSocket manager instance."""
+    return WebSocketManager(config)

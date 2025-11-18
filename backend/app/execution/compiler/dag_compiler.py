@@ -14,8 +14,7 @@ from enum import Enum
 import asyncio
 from collections import defaultdict, deque
 
-from ..domain.models import ExecutionConfig, NodeConfiguration
-from ..domain.events import DomainEvent, ExecutionStarted, NodeExecutionCompleted
+from ...domain.execution.models import ExecutionConfig, NodeConfiguration
 from ..validation.graph_validator import GraphValidator, ValidationResult, ValidationSeverity
 
 

@@ -50,3 +50,43 @@ async def check_db_health():
         return True
     except Exception:
         return False
+
+
+def get_async_session() -> sessionmaker:
+    """Get async session maker."""
+    return async_session_maker
+
+
+def get_db():
+    """Get database session."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+async def init_db():
+    """Initialize database with all tables."""
+    # Import all models to ensure they are registered
+    from app.models import User, Workspace, Agent, Dataset, Run, RunEvent  # noqa
+    
+    # Create all tables
+    Base.metadata.create_all(bind=engine)
+    
+
+# Global session factory for dependency injection
+async_session_maker = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
+
+
+def get_db_session():
+    """Get database session."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

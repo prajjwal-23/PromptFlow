@@ -369,3 +369,24 @@ def get_provider_models(provider_type: LLMProviderType) -> List[str]:
         ]
     else:
         return []
+
+
+# Alias for backward compatibility
+LLMFactory = LLMProviderFactory
+
+
+# Global factory instance
+_llm_factory: Optional[LLMFactory] = None
+
+
+def get_llm_factory() -> LLMFactory:
+    """Get the global LLM factory instance."""
+    global _llm_factory
+    if _llm_factory is None:
+        _llm_factory = LLMFactory()
+    return _llm_factory
+
+
+def create_llm_factory() -> LLMFactory:
+    """Create a new LLM factory instance."""
+    return LLMFactory()

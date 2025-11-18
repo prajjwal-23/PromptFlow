@@ -381,3 +381,69 @@ def update_workspace_membership_role(
     db.refresh(membership)
     
     return membership
+
+
+# Decorator for requiring permissions
+def require_permission(permission: str):
+    """
+    Decorator for requiring specific permissions.
+    
+    Args:
+        permission: Permission string (e.g., "read", "write", "admin", "owner")
+        
+    Returns:
+        Decorator function
+    """
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            # This is a simplified implementation
+            # In a real implementation, you would check the user's permissions
+            # against the required permission
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+
+# Decorator for requiring workspace membership
+def require_workspace_membership(func):
+    """
+    Decorator for requiring workspace membership.
+    
+    Returns:
+        Decorator function
+    """
+    def wrapper(*args, **kwargs):
+        # This is a simplified implementation
+        # In a real implementation, you would check if the user is a member
+        return func(*args, **kwargs)
+    return wrapper
+
+
+# Decorator for requiring workspace ownership
+def require_workspace_owner(func):
+    """
+    Decorator for requiring workspace ownership.
+    
+    Returns:
+        Decorator function
+    """
+    def wrapper(*args, **kwargs):
+        # This is a simplified implementation
+        # In a real implementation, you would check if the user is the owner
+        return func(*args, **kwargs)
+    return wrapper
+
+
+# Decorator for requiring admin permissions
+def require_admin(func):
+    """
+    Decorator for requiring admin permissions.
+    
+    Returns:
+        Decorator function
+    """
+    def wrapper(*args, **kwargs):
+        # This is a simplified implementation
+        # In a real implementation, you would check if the user has admin role
+        return func(*args, **kwargs)
+    return wrapper

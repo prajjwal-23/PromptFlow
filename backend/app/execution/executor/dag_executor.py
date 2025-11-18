@@ -20,8 +20,7 @@ import weakref
 from ..compiler.dag_compiler import CompilationResult, CompiledNode
 from ..context.manager import ExecutionContext, ContextStatus, create_execution_context
 from ..nodes.base_node import BaseNode, NodeInput, NodeOutput, NodeStatus
-from ...domain.models import ExecutionConfig, NodeConfiguration
-from ...domain.events import DomainEvent, ExecutionStarted, NodeExecutionCompleted
+from ...domain.execution.models import ExecutionConfig, NodeConfiguration
 
 
 class ExecutionStatus(str, Enum):

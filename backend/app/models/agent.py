@@ -21,7 +21,7 @@ class Agent(Base):
     description = Column(Text, nullable=True)
     graph_json = Column(JSON, nullable=True)  # Stores the node graph configuration
     version = Column(String, default="1.0.0", nullable=False)
-    is_active = Column(Boolean, default=True, nullable=False)
+    is_active = Column(String, default='true', nullable=False)
     created_by = Column(String, ForeignKey("users.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)

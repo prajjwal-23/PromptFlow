@@ -17,9 +17,8 @@ import threading
 from contextlib import asynccontextmanager
 import weakref
 
-from ..domain.models import ExecutionConfig, NodeConfiguration
+from ...domain.execution.models import ExecutionConfig, NodeConfiguration
 from ..nodes.base_node import NodeOutput, NodeStatus
-from ...domain.events import DomainEvent
 
 
 class ContextStatus(str, Enum):

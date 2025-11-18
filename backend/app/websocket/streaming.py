@@ -554,6 +554,24 @@ class EventStreamer:
         await self._cache.clear()
         self._logger.info("Event cache cleared")
     
+    async def health_check(self) -> Dict[str, Any]:
+        """Perform health check on event streamer."""
+        try:
+            cache_stats = await self.get_cache_stats()
+            subscriptions = await self.get_all_subscriptions()
+            
+            return {
+                "status": "healthy",
+                "subscriptions_count": len(subscriptions),
+                "cache_stats": cache_stats,
+                "transformers_count": len(self._transformers)
+            }
+        except Exception as e:
+            return {
+                "status": "unhealthy",
+                "error": str(e)
+            }
+    
     async def shutdown(self) -> None:
         """Shutdown event streamer."""
         try:

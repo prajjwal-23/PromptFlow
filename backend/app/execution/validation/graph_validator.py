@@ -19,8 +19,7 @@ from pydantic import BaseModel, Field, validator, ValidationError
 from jsonschema import validate, Draft7Validator, Draft202012Validator
 import jsonschema.exceptions
 
-from ..domain.models import ExecutionConfig, NodeConfiguration
-from ..domain.events import DomainEvent, ExecutionStarted, NodeExecutionCompleted
+from ...domain.execution.models import ExecutionConfig, NodeConfiguration
 
 
 class ValidationSeverity(str, Enum):

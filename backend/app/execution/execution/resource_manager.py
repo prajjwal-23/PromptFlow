@@ -17,7 +17,7 @@ import uuid
 import weakref
 from contextlib import asynccontextmanager
 
-from ..domain.models import ExecutionConfig
+from ...domain.execution.models import ExecutionConfig
 from ..nodes.base_node import BaseNode
 
 
@@ -69,8 +69,8 @@ class ResourceLimits:
         return {
             "max_cpu_usage": self.max_cpu_usage,
             "max_memory_usage": self.max_memory_usage,
-            "max_disk_usage": self.max_usage,
-            "max_network_connections": self._max_network_connections,
+            "max_disk_usage": self.max_disk_usage,
+            "max_network_connections": self.max_network_connections,
             "max_gpu_usage": self.max_gpu_usage,
             "timeout_seconds": self.timeout_seconds,
         }
@@ -80,8 +80,8 @@ class ResourceLimits:
 class ResourceAllocation:
     """Resource allocation for a specific execution."""
     execution_id: str
-    allocated_resources: Dict[ResourceType, float] = field(default_factory=dict)
     resource_limits: ResourceLimits
+    allocated_resources: Dict[ResourceType, float] = field(default_factory=dict)
     start_time: datetime = field(default_factory=datetime.now)
     end_time: Optional[datetime] = None
     status: str = "active"
@@ -204,7 +204,8 @@ class ResourceManager:
         async with self._lock:
             # Check if allocation already exists
             if execution_id in self._active_allocations:
-                return self._active_allocations[execution_id]
+                yield self._active_allocations[execution_id]
+                return
             
             # Calculate resource requirements
             required_resources = self._calculate_resource_requirements(
@@ -218,8 +219,8 @@ class ResourceManager:
             # Create allocation
             allocation = ResourceAllocation(
                 execution_id=execution_id,
-                allocated_resources=required_resources,
                 resource_limits=self._resource_limits,
+                allocated_resources=required_resources,
                 metadata={
                     "estimated_duration": estimated_duration,
                     "node_count": node_count,
@@ -422,7 +423,7 @@ class ResourceManager:
     
     async def _perform_auto_scaling(self) -> None:
         """Perform auto-scaling actions."""
-        current_usage = self._get_current_usage()
+        current_usage = self._get_current_resource_usage()
         
         # Emit auto-scaling event
         self._metrics["auto_scaling_events"] += 1

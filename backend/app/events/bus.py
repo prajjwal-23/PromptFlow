@@ -626,3 +626,19 @@ async def publish_event(event: ExecutionEvent) -> int:
     """Publish event using the default event bus."""
     event_bus = get_event_bus()
     return await event_bus.publish(event)
+
+
+# Alias for publish to match test expectations
+async def emit_event(event: ExecutionEvent) -> int:
+    """Emit event using the default event bus (alias for publish)."""
+    return await publish_event(event)
+
+
+# Add emit method to EventBus class
+async def _emit(self, event: ExecutionEvent) -> int:
+    """Emit event (alias for publish)."""
+    return await self.publish(event)
+
+
+# Monkey patch the emit method onto EventBus class
+EventBus.emit = _emit
