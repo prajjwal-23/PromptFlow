@@ -23,36 +23,11 @@ class ExecutionStatus(str, Enum):
     """Execution status enumeration following enterprise standards."""
     PENDING = "pending"
     RUNNING = "running"
+    PAUSED = "paused"
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"
     TIMEOUT = "timeout"
-
-
-class NodeStatus(str, Enum):
-    """Node execution status enumeration."""
-    PENDING = "pending"
-    RUNNING = "running"
-    COMPLETED = "completed"
-    FAILED = "failed"
-    SKIPPED = "skipped"
-    TIMEOUT = "timeout"
-
-
-class EventType(str, Enum):
-    """Event type enumeration for execution events."""
-    EXECUTION_STARTED = "execution_started"
-    EXECUTION_COMPLETED = "execution_completed"
-    EXECUTION_FAILED = "execution_failed"
-    EXECUTION_CANCELLED = "execution_cancelled"
-    NODE_STARTED = "node_started"
-    NODE_COMPLETED = "node_completed"
-    NODE_FAILED = "node_failed"
-    NODE_SKIPPED = "node_skipped"
-    TOKEN_STREAM = "token_stream"
-    ERROR_OCCURRED = "error_occurred"
-    RESOURCE_ALLOCATED = "resource_allocated"
-    RESOURCE_RELEASED = "resource_released"
 
 
 class Priority(str, Enum):
@@ -148,7 +123,7 @@ class NodeOutput:
 class ExecutionEvent:
     """Event emitted during execution."""
     event_id: str = field(default_factory=lambda: str(uuid4()))
-    event_type: EventType = EventType.EXECUTION_STARTED
+    event_type: str = "execution_started"  # Use string instead of EventType enum
     execution_id: str = ""
     node_id: Optional[str] = None
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -494,4 +469,63 @@ class NodeExecutionCompleted(DomainEvent):
             "execution_id": self.execution_id,
             "node_id": self.node_id,
             "output": self.output.to_dict(),
+        }
+
+
+class EventType(str, Enum):
+    """Event type enumeration for execution events."""
+    EXECUTION_STARTED = "execution_started"
+    EXECUTION_COMPLETED = "execution_completed"
+    EXECUTION_FAILED = "execution_failed"
+    EXECUTION_CANCELLED = "execution_cancelled"
+    EXECUTION_PAUSED = "execution_paused"
+    EXECUTION_RESUMED = "execution_resumed"
+    NODE_STARTED = "node_started"
+    NODE_COMPLETED = "node_completed"
+    NODE_FAILED = "node_failed"
+    NODE_SKIPPED = "node_skipped"
+    TOKEN_STREAM = "token_stream"
+    ERROR_OCCURRED = "error_occurred"
+    RESOURCE_ALLOCATED = "resource_allocated"
+    RESOURCE_RELEASED = "resource_released"
+
+
+class NodeStatus(str, Enum):
+    """Node status enumeration."""
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    SKIPPED = "skipped"
+    CANCELLED = "cancelled"
+
+
+class NodeType(str, Enum):
+    """Node type enumeration."""
+    INPUT = "input"
+    LLM = "llm"
+    RETRIEVAL = "retrieval"
+    OUTPUT = "output"
+    TOOL = "tool"
+
+
+@dataclass(frozen=True)
+class CompiledNode:
+    """Compiled node ready for execution."""
+    id: str
+    type: NodeType
+    config: NodeConfiguration
+    dependencies: List[str]
+    execution_order: int
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for serialization."""
+        return {
+            "id": self.id,
+            "type": self.type.value,
+            "config": self.config.__dict__ if hasattr(self.config, '__dict__') else self.config,
+            "dependencies": self.dependencies,
+            "execution_order": self.execution_order,
+            "metadata": self.metadata,
         }

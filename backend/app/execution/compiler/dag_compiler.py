@@ -14,7 +14,7 @@ from enum import Enum
 import asyncio
 from collections import defaultdict, deque
 
-from ...domain.execution.models import ExecutionConfig, NodeConfiguration
+from ...domain.execution.models import ExecutionConfig, NodeConfiguration, NodeType, CompiledNode
 from ..validation.graph_validator import GraphValidator, ValidationResult, ValidationSeverity
 
 
@@ -24,41 +24,6 @@ class CompilationStatus(str, Enum):
     FAILED = "failed"
     WARNING = "warning"
     OPTIMIZED = "optimized"
-
-
-class NodeType(str, Enum):
-    """Supported node types."""
-    INPUT = "input"
-    LLM = "llm"
-    RETRIEVAL = "retrieval"
-    OUTPUT = "output"
-    TOOL = "tool"
-
-
-@dataclass(frozen=True)
-class CompiledNode:
-    """Compiled node with execution metadata."""
-    id: str
-    type: NodeType
-    config: Dict[str, Any]
-    dependencies: List[str] = field(default_factory=list)
-    dependents: List[str] = field(default_factory=list)
-    execution_order: int = 0
-    parallel_group: int = 0
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for serialization."""
-        return {
-            "id": self.id,
-            "type": self.type.value,
-            "config": self.config,
-            "dependencies": self.dependencies,
-            "dependents": self.dependents,
-            "execution_order": self.execution_order,
-            "parallel_group": self.parallel_group,
-            "metadata": self.metadata,
-        }
 
 
 @dataclass(frozen=True)

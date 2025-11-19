@@ -28,6 +28,7 @@ class ExecutionStatus(str, Enum):
     PENDING = "pending"
     RUNNING = "running"
     PAUSED = "paused"
+    RESUMING = "resuming"
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"
@@ -129,6 +130,8 @@ class DAGExecutor:
         }
         self._resource_monitor = None
         self._cancellation_tokens: Dict[str, asyncio.CancelToken] = {}
+        self._pause_events: Dict[str, asyncio.Event] = {}
+        self._paused_executions: Dict[str, Dict[str, Any]] = {}
     
     async def initialize(self) -> None:
         """Initialize the DAG executor."""
@@ -354,6 +357,10 @@ class DAGExecutor:
             # Cleanup
             if execution_id in self._cancellation_tokens:
                 del self._cancellation_tokens[execution_id]
+            if execution_id in self._pause_events:
+                del self._pause_events[execution_id]
+            if execution_id in self._paused_executions:
+                del self._paused_executions[execution_id]
             if execution_id in self._execution_contexts:
                 del self._execution_contexts[execution_id]
     
@@ -393,6 +400,9 @@ class DAGExecutor:
                 if cancellation_token.is_cancelled():
                     raise asyncio.CancelledError("Execution cancelled")
                 
+                # Check for pause state
+                await self._check_pause_state(context.execution_id)
+                
                 await self._execute_node(node_id, context, cancellation_token)
     
     async def _execute_nodes_parallel(
@@ -431,6 +441,8 @@ class DAGExecutor:
     ) -> None:
         """Execute a single node with semaphore control."""
         async with semaphore:
+            # Check for pause state
+            await self._check_pause_state(context.execution_id)
             await self._execute_node(node_id, context, cancellation_token)
     
     async def _execute_node(
@@ -450,6 +462,9 @@ class DAGExecutor:
             # Check for cancellation
             if cancellation_token.is_cancelled():
                 raise asyncio.CancelledError("Execution cancelled")
+            
+            # Check for pause state before execution
+            await self._check_pause_state(context.execution_id)
             
             # Get node inputs from dependencies
             node_inputs = self._prepare_node_inputs(node, context)
@@ -553,13 +568,76 @@ class DAGExecutor:
     
     async def pause_execution(self, execution_id: str) -> bool:
         """Pause an active execution."""
-        # Implementation would pause execution
-        return False
+        if execution_id not in self._execution_contexts:
+            return False
+        
+        context = self._execution_contexts[execution_id]
+        
+        # Check if execution is in a pausable state
+        if context.status not in [ContextStatus.RUNNING]:
+            return False
+        
+        # Create pause event
+        pause_event = asyncio.Event()
+        self._pause_events[execution_id] = pause_event
+        
+        # Store pause state
+        self._paused_executions[execution_id] = {
+            "paused_at": datetime.now(),
+            "context_snapshot": context.to_dict(),
+            "execution_state": "paused"
+        }
+        
+        # Update context status
+        await self._update_context_status(execution_id, ContextStatus.PAUSED)
+        
+        # Emit pause event
+        await self._emit_event("execution_paused", {
+            "execution_id": execution_id,
+            "paused_at": datetime.now().isoformat(),
+        })
+        
+        return True
     
     async def resume_execution(self, execution_id: str) -> bool:
         """Resume a paused execution."""
-        # Implementation would resume execution
-        return False
+        if execution_id not in self._paused_executions:
+            return False
+        
+        if execution_id not in self._execution_contexts:
+            return False
+        
+        context = self._execution_contexts[execution_id]
+        
+        # Check if execution is in a resumable state
+        if context.status != ContextStatus.PAUSED:
+            return False
+        
+        # Update context status
+        await self._update_context_status(execution_id, ContextStatus.RUNNING)
+        
+        # Clear pause event to allow execution to continue
+        if execution_id in self._pause_events:
+            self._pause_events[execution_id].set()
+            del self._pause_events[execution_id]
+        
+        # Clear paused state
+        pause_info = self._paused_executions.pop(execution_id)
+        
+        # Emit resume event
+        await self._emit_event("execution_resumed", {
+            "execution_id": execution_id,
+            "resumed_at": datetime.now().isoformat(),
+            "paused_duration": (datetime.now() - pause_info["paused_at"]).total_seconds(),
+        })
+        
+        return True
+    
+    async def _check_pause_state(self, execution_id: str) -> None:
+        """Check if execution is paused and wait if necessary."""
+        if execution_id in self._pause_events:
+            pause_event = self._pause_events[execution_id]
+            await pause_event.wait()  # Wait until resume is called
     
     async def get_execution_status(self, execution_id: str) -> Optional[ExecutionStatus]:
         """Get execution status."""
@@ -571,6 +649,10 @@ class DAGExecutor:
     def get_active_executions(self) -> List[str]:
         """Get list of active execution IDs."""
         return list(self._active_executions.keys())
+    
+    def get_paused_executions(self) -> List[str]:
+        """Get list of paused execution IDs."""
+        return list(self._paused_executions.keys())
     
     def get_execution_metrics(self) -> Dict[str, Any]:
         """Get executor metrics."""

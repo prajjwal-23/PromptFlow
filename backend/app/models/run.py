@@ -58,6 +58,7 @@ class Run(Base):
     agent = relationship("Agent", back_populates="runs")
     creator = relationship("User", back_populates="runs")
     events = relationship("RunEvent", back_populates="run", cascade="all, delete-orphan")
+    parent_run = relationship("Run", remote_side=[id], foreign_keys=[parent_run_id])
     child_runs = relationship("Run", remote_side=[parent_run_id], back_populates="parent_run")
     
     def __repr__(self):
@@ -121,7 +122,7 @@ class RunEvent(Base):
     resource_type = Column(String, nullable=True)  # Type of resource (llm, tool, etc.)
     
     # Relationships
-    run = relationship("Run", back_populates="events", cascade="all, delete-orphan")
+    run = relationship("Run", back_populates="events")
     
     def __repr__(self):
         return f"<RunEvent(id={self.id}, run_id={self.run_id}, event_type={self.event_type}, level={self.level})>"

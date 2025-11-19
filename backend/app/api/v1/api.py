@@ -4,7 +4,7 @@ Main API router for v1 endpoints.
 
 from fastapi import APIRouter
 
-from app.api.v1.endpoints import auth, users, workspaces, agents, datasets, runs
+from app.api.v1.endpoints import auth, users, workspaces, agents, datasets, runs, websocket
 
 # Create API router
 api_router = APIRouter()
@@ -16,3 +16,4 @@ api_router.include_router(workspaces.router, prefix="/workspaces", tags=["worksp
 api_router.include_router(agents.router, prefix="/agents", tags=["agents"])
 api_router.include_router(datasets.router, prefix="/datasets", tags=["datasets"])
 api_router.include_router(runs.router, prefix="/runs", tags=["runs"])
+api_router.include_router(websocket.router, prefix="/ws", tags=["websocket"])

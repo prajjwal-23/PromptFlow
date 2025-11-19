@@ -28,6 +28,7 @@ aiofiles==23.2.1
 pydantic==2.5.0
 pydantic-settings==2.1.0
 email-validator==2.1.0
+jsonschema==4.19.2
 
 # Vector Database & Embeddings
 qdrant-client==1.7.0

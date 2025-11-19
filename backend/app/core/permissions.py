@@ -447,3 +447,23 @@ def require_admin(func):
         # In a real implementation, you would check if the user has admin role
         return func(*args, **kwargs)
     return wrapper
+
+
+def require_workspace_permission(permission: str):
+    """
+    Decorator for requiring specific workspace permissions.
+    
+    Args:
+        permission: Permission string (e.g., "read", "write", "admin", "owner")
+        
+    Returns:
+        Decorator function
+    """
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            # This is a simplified implementation
+            # In a real implementation, you would check the user's permissions
+            # against the required permission
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator

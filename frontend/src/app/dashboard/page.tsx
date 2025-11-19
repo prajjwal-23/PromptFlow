@@ -13,10 +13,23 @@ import { useAgentStore } from '../../store/agentStore';
 import { ProtectedRoute } from '../../components/ProtectedRoute';
 import { WorkspaceCard } from '../../components/Workspace/WorkspaceCard';
 import { AgentCard } from '../../components/Agent/AgentCard';
+import {
+  Plus,
+  Monitor,
+  User,
+  LogOut,
+  ChevronDown,
+  FolderOpen,
+  Bot,
+  Zap,
+  Users,
+  Clock,
+  Building2
+} from 'lucide-react';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const {
     workspaces,
     isLoading: workspaceLoading,
@@ -30,6 +43,7 @@ export default function DashboardPage() {
   } = useAgentStore();
 
   const [activeTab, setActiveTab] = useState<'overview' | 'workspaces' | 'agents'>('overview');
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
   useEffect(() => {
     fetchWorkspaces();
@@ -52,24 +66,33 @@ export default function DashboardPage() {
     router.push('/create-agent');
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   const recentWorkspaces = workspaces.slice(0, 3);
   const recentAgents = agents.slice(0, 6);
 
   if (workspaceLoading || agentLoading) {
     return (
-    //   <ProtectedRoute>
+      <ProtectedRoute>
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
             <p className="mt-2 text-gray-600">Loading dashboard...</p>
           </div>
         </div>
-    //   </ProtectedRoute>
+      </ProtectedRoute>
     );
   }
 
   return (
-    // <ProtectedRoute>
+    <ProtectedRoute>
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
         <div className="bg-white shadow-sm border-b border-gray-200">
@@ -85,21 +108,65 @@ export default function DashboardPage() {
                   onClick={handleCreateWorkspace}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
+                  <Plus className="w-4 h-4 mr-2" />
                   New Workspace
                 </button>
-                
+                 
                 <button
                   onClick={handleCreateAgent}
                   className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                  <Bot className="w-4 h-4 mr-2" />
                   New Agent
                 </button>
+                
+                {/* Profile Dropdown */}
+                <div className="relative">
+                  <button
+                    className="flex items-center p-2 rounded-full hover:bg-gray-100 transition-colors"
+                    onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                  >
+                    <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-sm font-medium text-gray-700">
+                        {user?.full_name?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <ChevronDown className="ml-2 h-4 w-4 text-gray-500" />
+                  </button>
+                  
+                  {showProfileDropdown && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50">
+                      <div className="py-1">
+                        <div className="px-4 py-2 border-b border-gray-100">
+                          <div className="flex items-center px-3 py-2">
+                            <User className="h-5 w-5 text-gray-400" />
+                            <span className="ml-3 text-sm font-medium">Profile</span>
+                          </div>
+                        </div>
+                        
+                        <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer">
+                          <button
+                            onClick={() => router.push('/profile')}
+                            className="flex items-center w-full text-left text-sm text-gray-700 hover:text-primary"
+                          >
+                            <User className="mr-3 h-4 w-4 text-gray-400" />
+                            View Profile
+                          </button>
+                        </div>
+                        
+                        <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer">
+                          <button
+                            onClick={handleLogout}
+                            className="flex items-center w-full text-left text-sm text-gray-700 hover:text-red-600"
+                          >
+                            <LogOut className="mr-3 h-4 w-4 text-gray-400" />
+                            Logout
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -152,9 +219,7 @@ export default function DashboardPage() {
                 <div className="bg-white p-6 rounded-lg shadow">
                   <div className="flex items-center">
                     <div className="p-3 bg-blue-100 rounded-lg">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                      </svg>
+                      <FolderOpen className="w-6 h-6 text-blue-600" />
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Total Workspaces</p>
@@ -166,9 +231,7 @@ export default function DashboardPage() {
                 <div className="bg-white p-6 rounded-lg shadow">
                   <div className="flex items-center">
                     <div className="p-3 bg-green-100 rounded-lg">
-                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
+                      <Bot className="w-6 h-6 text-green-600" />
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Total Agents</p>
@@ -180,9 +243,7 @@ export default function DashboardPage() {
                 <div className="bg-white p-6 rounded-lg shadow">
                   <div className="flex items-center">
                     <div className="p-3 bg-purple-100 rounded-lg">
-                      <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
+                      <Zap className="w-6 h-6 text-purple-600" />
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Active Workflows</p>
@@ -196,9 +257,7 @@ export default function DashboardPage() {
                 <div className="bg-white p-6 rounded-lg shadow">
                   <div className="flex items-center">
                     <div className="p-3 bg-orange-100 rounded-lg">
-                      <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                      <Users className="w-6 h-6 text-orange-600" />
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Team Members</p>
@@ -224,9 +283,7 @@ export default function DashboardPage() {
                 
                 {recentWorkspaces.length === 0 ? (
                   <div className="bg-white p-8 rounded-lg shadow text-center">
-                    <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
+                    <FolderOpen className="mx-auto h-12 w-12 text-gray-400" />
                     <h3 className="mt-2 text-sm font-medium text-gray-900">No workspaces yet</h3>
                     <p className="mt-1 text-sm text-gray-500">Create your first workspace to get started</p>
                     <div className="mt-6">
@@ -265,9 +322,7 @@ export default function DashboardPage() {
                 
                 {recentAgents.length === 0 ? (
                   <div className="bg-white p-8 rounded-lg shadow text-center">
-                    <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
+                    <Bot className="mx-auto h-12 w-12 text-gray-400" />
                     <h3 className="mt-2 text-sm font-medium text-gray-900">No agents yet</h3>
                     <p className="mt-1 text-sm text-gray-500">Create your first AI agent to get started</p>
                     <div className="mt-6">
@@ -302,18 +357,14 @@ export default function DashboardPage() {
                   onClick={handleCreateWorkspace}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90"
                 >
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
+                  <Plus className="w-4 h-4 mr-2" />
                   Create Workspace
                 </button>
               </div>
               
               {workspaces.length === 0 ? (
                 <div className="bg-white p-8 rounded-lg shadow text-center">
-                  <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
+                  <FolderOpen className="mx-auto h-12 w-12 text-gray-400" />
                   <h3 className="mt-2 text-sm font-medium text-gray-900">No workspaces yet</h3>
                   <p className="mt-1 text-sm text-gray-500">Create your first workspace to get started</p>
                   <div className="mt-6">
@@ -347,18 +398,14 @@ export default function DashboardPage() {
                   onClick={handleCreateAgent}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90"
                 >
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                  <Plus className="w-4 h-4 mr-2" />
                   Create Agent
                 </button>
               </div>
               
               {agents.length === 0 ? (
                 <div className="bg-white p-8 rounded-lg shadow text-center">
-                  <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                  <Bot className="mx-auto h-12 w-12 text-gray-400" />
                   <h3 className="mt-2 text-sm font-medium text-gray-900">No agents yet</h3>
                   <p className="mt-1 text-sm text-gray-500">Create your first AI agent to get started</p>
                   <div className="mt-6">
@@ -385,6 +432,6 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
-    // </ProtectedRoute>
+    </ProtectedRoute>
   );
 }

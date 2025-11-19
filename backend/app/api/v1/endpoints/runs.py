@@ -391,6 +391,100 @@ async def cancel_run(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.post("/{run_id}/pause")
+async def pause_run(
+    run_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Pause a running run.
+    
+    This endpoint pauses a currently running run, allowing it to be resumed later.
+    """
+    try:
+        logger.info("Pausing run", run_id=run_id, user_id=current_user.id)
+        
+        # Get services
+        provider = get_service_provider_instance()
+        execution_service = provider.get_execution_service()
+        
+        # Pause execution
+        success = await execution_service.pause_execution(run_id)
+        if not success:
+            raise HTTPException(status_code=400, detail="Run cannot be paused")
+        
+        return {"message": "Run paused successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error("Error pausing run", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/{run_id}/resume")
+async def resume_run(
+    run_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Resume a paused run.
+    
+    This endpoint resumes a previously paused run.
+    """
+    try:
+        logger.info("Resuming run", run_id=run_id, user_id=current_user.id)
+        
+        # Get services
+        provider = get_service_provider_instance()
+        execution_service = provider.get_execution_service()
+        
+        # Resume execution
+        success = await execution_service.resume_execution(run_id)
+        if not success:
+            raise HTTPException(status_code=400, detail="Run cannot be resumed")
+        
+        return {"message": "Run resumed successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error("Error resuming run", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/{run_id}/pause-info")
+async def get_run_pause_info(
+    run_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Get pause information for a run.
+    
+    This endpoint returns detailed information about a paused run, including
+    pause duration and state.
+    """
+    try:
+        logger.info("Getting run pause info", run_id=run_id, user_id=current_user.id)
+        
+        # Get services
+        provider = get_service_provider_instance()
+        execution_service = provider.get_execution_service()
+        
+        # Get pause info
+        pause_info = await execution_service.get_execution_pause_info(run_id)
+        if not pause_info:
+            raise HTTPException(status_code=404, detail="Run pause info not found")
+        
+        return pause_info
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error("Error getting run pause info", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/{run_id}/events", response_model=List[RunEventResponse])
 async def get_run_events(
     run_id: str,

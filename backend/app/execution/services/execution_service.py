@@ -18,7 +18,8 @@ from app.domain.execution.models import (
     ExecutionConfig,
     ExecutionMetrics,
     ExecutionEvent,
-    EventType
+    NodeOutput,
+    NodeStatus
 )
 from app.domain.execution.services import ExecutionService
 from app.domain.execution.repositories import (
@@ -115,7 +116,7 @@ class ExecutionServiceImpl(ExecutionService):
                 
                 # Create and save event
                 start_event = ExecutionEvent(
-                    event_type=EventType.EXECUTION_STARTED,
+                    event_type="execution_started",
                     execution_id=execution_id,
                     data={"started_at": execution.started_at.isoformat()}
                 )
@@ -156,7 +157,7 @@ class ExecutionServiceImpl(ExecutionService):
                 
                 # Create and save event
                 cancel_event = ExecutionEvent(
-                    event_type=EventType.EXECUTION_CANCELLED,
+                    event_type="execution_cancelled",
                     execution_id=execution_id,
                     data={"cancelled_at": execution.completed_at.isoformat()}
                 )
@@ -166,20 +167,50 @@ class ExecutionServiceImpl(ExecutionService):
                 await self.event_bus.emit(cancel_event)
                 
                 self.logger.info(f"Cancelled execution {execution_id}")
-                return True
+            async with unit_of_work_context() as uow:
+                execution_repo = uow.get_execution_repository()
+                return await execution_repo.get_by_id(execution_id)
                 
         except Exception as e:
-            self.logger.error(f"Error cancelling execution {execution_id}: {e}")
+            self.logger.error(f"Error getting execution {execution_id}: {e}")
             raise
     
     async def pause_execution(self, execution_id: str) -> bool:
         """Pause an execution."""
         try:
-            # This is a placeholder for pause functionality
-            # In a full implementation, this would involve pausing the DAG executor
-            self.logger.info(f"Pause execution {execution_id} - not implemented yet")
-            return False
-            
+            async with unit_of_work_context() as uow:
+                execution_repo = uow.get_execution_repository()
+                event_repo = uow.get_event_repository()
+                
+                # Get execution
+                execution = await execution_repo.get_by_id(execution_id)
+                if execution is None:
+                    raise ValueError(f"Execution {execution_id} not found")
+                
+                # Check if execution can be paused
+                if execution.status != ExecutionStatus.RUNNING:
+                    return False
+                
+                # Update execution status
+                execution.status = ExecutionStatus.PAUSED
+                
+                # Save execution
+                await execution_repo.save(execution)
+                
+                # Create and save event
+                pause_event = ExecutionEvent(
+                    event_type="execution_paused",
+                    execution_id=execution_id,
+                    data={"paused_at": datetime.now(timezone.utc).isoformat()}
+                )
+                await event_repo.save_event(pause_event)
+                
+                # Emit event
+                await self.event_bus.emit(pause_event)
+                
+                self.logger.info(f"Paused execution {execution_id}")
+                return True
+                
         except Exception as e:
             self.logger.error(f"Error pausing execution {execution_id}: {e}")
             raise
@@ -187,24 +218,83 @@ class ExecutionServiceImpl(ExecutionService):
     async def resume_execution(self, execution_id: str) -> bool:
         """Resume a paused execution."""
         try:
-            # This is a placeholder for resume functionality
-            # In a full implementation, this would involve resuming the DAG executor
-            self.logger.info(f"Resume execution {execution_id} - not implemented yet")
-            return False
-            
+            async with unit_of_work_context() as uow:
+                execution_repo = uow.get_execution_repository()
+                event_repo = uow.get_event_repository()
+                
+                # Get execution
+                execution = await execution_repo.get_by_id(execution_id)
+                if execution is None:
+                    raise ValueError(f"Execution {execution_id} not found")
+                
+                # Check if execution can be resumed
+                if execution.status != ExecutionStatus.PAUSED:
+                    return False
+                
+                # Update execution status
+                execution.status = ExecutionStatus.RUNNING
+                
+                # Save execution
+                await execution_repo.save(execution)
+                
+                # Create and save event
+                resume_event = ExecutionEvent(
+                    event_type="execution_resumed",
+                    execution_id=execution_id,
+                    data={"resumed_at": datetime.now(timezone.utc).isoformat()}
+                )
+                await event_repo.save_event(resume_event)
+                
+                # Emit event
+                await self.event_bus.emit(resume_event)
+                
+                self.logger.info(f"Resumed execution {execution_id}")
+                return True
+                
         except Exception as e:
             self.logger.error(f"Error resuming execution {execution_id}: {e}")
             raise
     
-    async def get_execution(self, execution_id: str) -> Optional[Execution]:
-        """Get execution by ID."""
+    async def get_execution_pause_info(self, execution_id: str) -> Optional[Dict[str, Any]]:
+        """Get pause information for an execution."""
         try:
             async with unit_of_work_context() as uow:
                 execution_repo = uow.get_execution_repository()
-                return await execution_repo.get_by_id(execution_id)
+                event_repo = uow.get_event_repository()
+                
+                # Get execution
+                execution = await execution_repo.get_by_id(execution_id)
+                if execution is None:
+                    return None
+                
+                # Check if execution is paused
+                if execution.status != ExecutionStatus.PAUSED:
+                    return None
+                
+                # Get pause event
+                pause_events = await event_repo.get_events_by_execution_id(
+                    execution_id,
+                    event_type="execution_paused",
+                    limit=1
+                )
+                
+                if not pause_events:
+                    return None
+                
+                pause_event = pause_events[0]
+                paused_at = datetime.fromisoformat(pause_event.data.get("paused_at"))
+                paused_duration = (datetime.now(timezone.utc) - paused_at).total_seconds()
+                
+                return {
+                    "execution_id": execution_id,
+                    "paused_at": paused_at.isoformat(),
+                    "paused_duration_seconds": paused_duration,
+                    "status": execution.status.value,
+                    "can_resume": True
+                }
                 
         except Exception as e:
-            self.logger.error(f"Error getting execution {execution_id}: {e}")
+            self.logger.error(f"Error getting execution pause info {execution_id}: {e}")
             raise
     
     async def list_executions(

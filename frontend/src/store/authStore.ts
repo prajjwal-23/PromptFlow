@@ -176,7 +176,7 @@ export const useAuthStore = create<AuthState>()(
           // Clear all auth data
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
-          
+
           set({
             user: null,
             accessToken: null,

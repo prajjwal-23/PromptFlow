@@ -7,7 +7,7 @@ from typing import Optional, Union
 from uuid import UUID
 
 import argon2
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Query, WebSocket
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
@@ -272,6 +272,62 @@ async def get_optional_current_user(
         return await get_current_user(token, db)
     except HTTPException:
         return None
+
+
+async def get_current_user_websocket(
+    websocket: WebSocket,
+    token: Optional[str] = Query(None, alias="token"),
+    db: Session = Depends(get_db)
+) -> User:
+    """
+    Get the current authenticated user from WebSocket connection.
+    
+    Args:
+        websocket: The WebSocket connection
+        token: The JWT access token from query parameters
+        db: Database session
+        
+    Returns:
+        The authenticated User object
+        
+    Raises:
+        HTTPException: If user is not found or token is invalid
+    """
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    
+    if not token:
+        # Also try to get token from WebSocket subprotocol
+        if websocket.headers.get("authorization"):
+            auth_header = websocket.headers["authorization"]
+            if auth_header.startswith("Bearer "):
+                token = auth_header[7:]
+        
+        if not token:
+            raise credentials_exception
+    
+    # Verify token
+    payload = verify_token(token)
+    
+    # Check token type
+    token_type = payload.get("type")
+    if token_type != "access":
+        raise credentials_exception
+    
+    # Get user ID from token
+    user_id: str = payload.get("sub")
+    if user_id is None:
+        raise credentials_exception
+    
+    # Get user from database (using string ID)
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise credentials_exception
+    
+    return user
 
 
 class TokenData:
