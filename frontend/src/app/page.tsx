@@ -1,8 +1,7 @@
 /**
- * Premium Landing Page with Three.js Animation
- * 
- * Industry-standard landing page with immersive 3D background,
- * smooth animations, and premium UI components.
+ * Premium Landing Page with Hero Section
+ *
+ * Modern landing page with hero section, smooth animations, and premium UI components.
  */
 
 'use client';
@@ -11,8 +10,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Brain, Zap, Workflow, Sparkles, ArrowRight, Play } from 'lucide-react';
-// import { ThreeScene } from '@/components/Premium/Three/ThreeScene';
-import { ThreeScene } from '../components/Premium/Three/ThreeScene';
+import { HeroSection, Navigation } from '@/src/components/ui';
 
 export default function HomePage() {
   const router = useRouter();
@@ -75,138 +73,233 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 overflow-hidden">
-      {/* Three.js Background - Commented out for now due to TypeScript issues */}
-      <ThreeScene />
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <HeroSection />
       
-      {/* Interactive background gradient */}
-      <div 
-        className="fixed inset-0 z-0 opacity-30 pointer-events-none"
-        style={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(79, 70, 229, 0.4) 0%, transparent 60%)`
-        }}
-      />
-
-      {/* Main content */}
-      <div className="relative z-20 min-h-screen flex items-center">
+      {/* Features Section */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            {isLoaded && (
+          <div className="text-center mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+            >
+              Why Choose PromptFlow?
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
+            >
+              Experience the power of intelligent automation with our cutting-edge platform designed for modern businesses.
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
               <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="space-y-8"
+                key={feature.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="group relative"
               >
-                {/* Subtitle with animation */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6"
-                >
-                  <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />
-                  <span className="text-sm font-medium text-white/90">The Future of Automation is Here</span>
-                </motion.div>
-
-                {/* Main title with gradient effect */}
-                <motion.h1
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent"
-                >
-                  Build AI Agents That Think
-                </motion.h1>
-
-                {/* Description with typewriter effect */}
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.6 }}
-                  className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed"
-                >
-                  Create intelligent AI agents with visual workflows, real-time execution, and seamless integration. Transform your ideas into powerful automation solutions.
-                </motion.p>
-
-                {/* CTA Buttons */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8"
-                >
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleStartBuilding}
-                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    Start Building Free
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </motion.button>
+                <div className="relative p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-800">
+                  {/* Background gradient */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`} />
                   
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleWatchDemo}
-                    className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300"
-                  >
-                    Watch Demo
-                    <Play className="w-5 h-5 ml-2" />
-                  </motion.button>
-                </motion.div>
-
-                {/* Stats section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1 }}
-                  className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16"
-                >
-                  {[
-                    { icon: Brain, value: "10K+", label: "AI Agents Built" },
-                    { icon: Workflow, value: "50K+", label: "Workflows Created" },
-                    { icon: Zap, value: "1M+", label: "Executions Completed" },
-                    { icon: Sparkles, value: "99.9%", label: "Uptime" }
-                  ].map((stat, index) => (
-                    <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 1 + index * 0.1 }}
-                      className="text-center group"
-                    >
-                      <div className="flex flex-col items-center space-y-2">
-                        <div className="p-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 group-hover:bg-white/20 transition-all duration-300">
-                          <stat.icon className="w-6 h-6 text-blue-400" />
-                        </div>
-                        <div className="text-2xl font-bold text-white">{stat.value}</div>
-                        <div className="text-sm text-white/60">{stat.label}</div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
+                  {/* Icon */}
+                  <div className={`inline-flex p-3 bg-gradient-to-br ${feature.color} rounded-xl mb-6`}>
+                    <feature.icon className="w-6 h-6 text-white" />
+                  </div>
+                  
+                  {/* Content */}
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    {feature.description}
+                  </p>
+                  
+                  {/* Stats */}
+                  <div className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
+                    <span>{feature.stats}</span>
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
               </motion.div>
-            )}
+            ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-          <motion.div
-            className="w-1 h-3 bg-white/60 rounded-full mt-2"
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+      {/* Quick Start Section */}
+      <section className="py-20 bg-white dark:bg-gray-800">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">
+                Get Started in Minutes
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                Create your first AI agent with our intuitive visual builder. No coding required.
+              </p>
+              <div className="space-y-4">
+                {[
+                  { step: "1", title: "Sign up for free", description: "Create your account in seconds" },
+                  { step: "2", title: "Choose a template", description: "Start with pre-built agent templates" },
+                  { step: "3", title: "Customize & Deploy", description: "Tailor your agent and deploy instantly" }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      {item.step}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{item.title}</h3>
+                      <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleStartBuilding}
+                className="mt-8 inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Get Started Now
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </motion.button>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-2xl p-8 shadow-xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl"></div>
+                <div className="relative z-10">
+                  <div className="aspect-video bg-white dark:bg-gray-900 rounded-lg shadow-inner flex items-center justify-center">
+                    <div className="text-center">
+                      <Brain className="w-16 h-16 text-blue-600 dark:text-blue-400 mx-auto mb-4" />
+                      <p className="text-gray-600 dark:text-gray-300">Interactive Agent Builder Preview</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div
+            className="absolute inset-0 bg-repeat"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+            }}
           />
         </div>
-      </motion.div>
+        
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-4xl mx-auto">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold mb-6 text-white"
+            >
+              Ready to Transform Your Workflow?
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-xl text-white/90 mb-8 max-w-2xl mx-auto"
+            >
+              Join thousands of teams already using PromptFlow to automate their workflows and boost productivity.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleStartBuilding}
+                className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Start Building Free
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </motion.button>
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleWatchDemo}
+                className="inline-flex items-center px-8 py-4 bg-white/20 backdrop-blur-md border border-white/30 text-white font-semibold rounded-xl hover:bg-white/30 transition-all duration-300"
+              >
+                View Demo
+                <Play className="w-5 h-5 ml-2" />
+              </motion.button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { icon: Brain, value: "10K+", label: "AI Agents Built" },
+              { icon: Workflow, value: "50K+", label: "Workflows Created" },
+              { icon: Zap, value: "1M+", label: "Executions Completed" },
+              { icon: Sparkles, value: "99.9%", label: "Uptime" }
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="text-center group"
+              >
+                <div className="flex flex-col items-center space-y-2">
+                  <div className="p-3 bg-white dark:bg-gray-800 rounded-xl shadow-md group-hover:shadow-lg transition-all duration-300">
+                    <stat.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">{stat.label}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
