@@ -1,8 +1,10 @@
 /**
  * RunPanel component for execution control and monitoring.
- * 
+ *
  * Premium UI implementation with dark mode, glassmorphism, and modern controls.
  */
+
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { PlayIcon, PauseIcon, StopIcon, ArrowPathIcon, ChevronDownIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';

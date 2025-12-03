@@ -1,8 +1,10 @@
 /**
  * EventStream component for real-time execution event display.
- * 
+ *
  * Premium Terminal UI implementation with dark mode, syntax highlighting feel, and modern controls.
  */
+
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useExecutionStore } from '../../store/executionStore';

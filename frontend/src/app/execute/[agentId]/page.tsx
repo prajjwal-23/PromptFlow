@@ -2,6 +2,8 @@
  * Agent execution page - provides interface for executing agents with real-time monitoring.
  */
 
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useExecutionStore } from '../../../store/executionStore';

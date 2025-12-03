@@ -1,160 +1,377 @@
 /**
- * Create Agent Page
+ * Premium Create Agent Page
  * 
- * This page provides a dedicated interface for creating new agents.
+ * Industry-standard agent creation page with glass morphism,
+ * step-by-step wizard, and smooth animations.
  */
+
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { useAuthStore } from '../../store/authStore';
 import { useWorkspaceStore } from '../../store/workspaceStore';
 import { useAgentStore } from '../../store/agentStore';
 import { ProtectedRoute } from '../../components/ProtectedRoute';
-import { AgentForm } from '../../components/Agent/AgentForm';
+import { Brain, Zap, Sparkles, ArrowRight, ArrowLeft, Check, Settings, Code, Workflow } from 'lucide-react';
 
 export default function CreateAgentPage() {
   const router = useRouter();
-  const { currentWorkspace } = useWorkspaceStore();
-  const { createAgent, isCreating } = useAgentStore();
+  const { user } = useAuthStore();
+  const { workspaces } = useWorkspaceStore();
+  const { createAgent } = useAgentStore();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isCreating, setIsCreating] = useState(false);
+  const [agentData, setAgentData] = useState({
+    name: '',
+    description: '',
+    workspaceId: workspaces[0]?.id || '',
+    graphJson: null as any,
+    isActive: true
+  });
 
-  const handleCreateAgent = async (data: { name: string; description?: string; workspace_id?: string }) => {
+  const steps = [
+    { 
+      number: 1, 
+      title: 'Basic Info', 
+      icon: Settings,
+      description: 'Name your agent and provide details'
+    },
+    { 
+      number: 2, 
+      title: 'Workspace', 
+      icon: Code,
+      description: 'Choose where your agent will live'
+    },
+    { 
+      number: 3, 
+      title: 'Finalize', 
+      icon: Sparkles,
+      description: 'Review and create your agent'
+    }
+  ];
+
+  const handleNext = () => {
+    if (currentStep < 3) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleCreate = async () => {
+    setIsCreating(true);
     try {
-      const workspaceId = data.workspace_id || currentWorkspace?.id;
-      if (!workspaceId) {
-        throw new Error('Workspace is required to create an agent');
-      }
-
       const newAgent = await createAgent({
-        name: data.name,
-        description: data.description,
-        workspace_id: workspaceId,
+        name: agentData.name,
+        description: agentData.description,
+        workspace_id: agentData.workspaceId,
+        graph_json: agentData.graphJson,
       });
-      
-      // Navigate to the agent editor
       router.push(`/agents/${newAgent.id}/edit`);
     } catch (error) {
       console.error('Failed to create agent:', error);
+      setIsCreating(false);
     }
   };
 
-  const handleCancel = () => {
-    if (currentWorkspace) {
-      router.push(`/workspaces/${currentWorkspace.id}/agents`);
-    } else {
-      router.push('/agents');
+  const isStepValid = (step: number) => {
+    switch (step) {
+      case 1:
+        return agentData.name.trim().length >= 2;
+      case 2:
+        return agentData.workspaceId !== '';
+      case 3:
+        return true;
+      default:
+        return false;
     }
   };
-
-  if (!currentWorkspace) {
-    return (
-      <ProtectedRoute>
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">No Workspace Selected</h1>
-            <p className="text-gray-600 mb-4">Please select a workspace to create an agent.</p>
-            <button
-              onClick={() => router.push('/workspaces')}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
-            >
-              Go to Workspaces
-            </button>
-          </div>
-        </div>
-      </ProtectedRoute>
-    );
-  }
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <button
-                onClick={handleCancel}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <h1 className="text-3xl font-bold text-gray-900">Create New Agent</h1>
-            </div>
-            <p className="text-gray-600">
-              Set up a new AI agent to automate your workflows in {currentWorkspace.name}
-            </p>
-          </div>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 relative overflow-hidden">
+        {/* Animated background particles */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-white/20 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -60],
+                opacity: [0, 0.4, 0]
+              }}
+              transition={{
+                duration: 2 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2
+              }}
+            />
+          ))}
+        </div>
 
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-                    <svg
-                      className="h-5 w-5 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+        {/* Glass morphism overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/30" />
+
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+            <div className="flex justify-center mb-4">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-50" />
+                <Brain className="w-12 h-12 text-white relative z-10" />
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold text-white mb-2">Create AI Agent</h1>
+            <p className="text-white/70">Build an intelligent agent that thinks and acts</p>
+          </motion.div>
+
+          {/* Progress Steps */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex justify-center mb-12"
+          >
+            <div className="flex items-center space-x-4">
+              {steps.map((step, index) => (
+                <div key={step.number} className="flex items-center">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className={`flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300 ${
+                      currentStep >= step.number
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 border-transparent text-white'
+                        : 'bg-white/10 border-white/30 text-white/60'
+                    }`}
+                  >
+                    {currentStep > step.number ? (
+                      <Check className="w-6 h-6" />
+                    ) : (
+                      <step.icon className="w-6 h-6" />
+                    )}
+                  </motion.div>
+                  {index < steps.length - 1 && (
+                    <div className={`w-16 h-0.5 mx-2 ${
+                      currentStep > step.number
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500'
+                        : 'bg-white/20'
+                    }`} />
+                  )}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Step Content */}
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="max-w-2xl mx-auto"
+          >
+            {/* Step 1: Basic Info */}
+            {currentStep === 1 && (
+              <div className="space-y-8">
+                <div className="text-center">
+                  <h2 className="text-2xl font-semibold text-white mb-2">{steps[0].title}</h2>
+                  <p className="text-white/70">{steps[0].description}</p>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-white/80 mb-2">
+                      Agent Name
+                    </label>
+                    <input
+                      type="text"
+                      value={agentData.name}
+                      onChange={(e) => setAgentData({ ...agentData, name: e.target.value })}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      placeholder="e.g., Customer Support Bot"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-white/80 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      value={agentData.description}
+                      onChange={(e) => setAgentData({ ...agentData, description: e.target.value })}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
+                      placeholder="Describe what this agent does..."
+                      rows={3}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        checked={agentData.isActive}
+                        onChange={(e) => setAgentData({ ...agentData, isActive: e.target.checked })}
+                        className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded focus:ring-blue-500"
                       />
-                    </svg>
+                      <span className="text-white/80">Activate agent immediately</span>
+                    </label>
                   </div>
                 </div>
-                <div className="ml-4">
-                  <h2 className="text-lg font-medium text-gray-900">Agent Details</h2>
-                  <p className="text-sm text-gray-500">
-                    Provide the basic information for your new AI agent
-                  </p>
-                </div>
               </div>
-            </div>
-            
-            <div className="px-6 py-6">
-              <AgentForm
-                onSubmit={handleCreateAgent}
-                onCancel={handleCancel}
-                isSubmitting={isCreating}
-                workspaceId={currentWorkspace.id}
-                submitButtonText="Create Agent"
-              />
-            </div>
-          </div>
+            )}
 
-          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <svg
-                  className="h-5 w-5 text-blue-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-blue-800">
-                  Agent Creation Tips
-                </h3>
-                <div className="mt-2 text-sm text-blue-700">
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>Choose a descriptive name that clearly identifies the agent's purpose</li>
-                    <li>Add a brief description to help team members understand what the agent does</li>
-                    <li>You'll be able to design the agent's workflow in the visual editor next</li>
-                    <li>Agents can be configured to use different AI models and tools</li>
-                    <li>Test your agent thoroughly before deploying it to production</li>
-                  </ul>
+            {/* Step 2: Workspace */}
+            {currentStep === 2 && (
+              <div className="space-y-8">
+                <div className="text-center">
+                  <h2 className="text-2xl font-semibold text-white mb-2">{steps[1].title}</h2>
+                  <p className="text-white/70">{steps[1].description}</p>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8">
+                  <div>
+                    <label className="block text-sm font-medium text-white/80 mb-2">
+                      Select Workspace
+                    </label>
+                    <select
+                      value={agentData.workspaceId}
+                      onChange={(e) => setAgentData({ ...agentData, workspaceId: e.target.value })}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                      required
+                    >
+                      {workspaces.map((workspace) => (
+                        <option key={workspace.id} value={workspace.id} className="bg-gray-800">
+                          {workspace.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {workspaces.length === 0 && (
+                    <div className="mt-4 p-4 bg-yellow-500/20 border border-yellow-500/30 rounded-xl">
+                      <p className="text-yellow-300 text-sm">
+                        You need to create a workspace first.{' '}
+                        <Link href="/create-workspace" className="text-yellow-400 hover:text-yellow-300 font-medium">
+                          Create a workspace
+                        </Link>
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
+            )}
+
+            {/* Step 3: Finalize */}
+            {currentStep === 3 && (
+              <div className="space-y-8">
+                <div className="text-center">
+                  <h2 className="text-2xl font-semibold text-white mb-2">{steps[2].title}</h2>
+                  <p className="text-white/70">{steps[2].description}</p>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 space-y-6">
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/70">Agent Name:</span>
+                    <span className="text-white font-medium">{agentData.name}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/70">Description:</span>
+                    <span className="text-white font-medium">{agentData.description || 'No description'}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/70">Workspace:</span>
+                    <span className="text-white font-medium">
+                      {workspaces.find(w => w.id === agentData.workspaceId)?.name || 'Unknown'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/70">Status:</span>
+                    <span className="text-white font-medium">{agentData.isActive ? 'Active' : 'Inactive'}</span>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-xl p-6">
+                  <div className="flex items-center space-x-3">
+                    <Zap className="w-6 h-6 text-blue-400" />
+                    <div>
+                      <h3 className="text-white font-medium">Ready to create!</h3>
+                      <p className="text-white/70 text-sm">Your AI agent will be created and ready for configuration.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </motion.div>
+
+          {/* Navigation Buttons */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-between items-center mt-12"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handlePrevious}
+              disabled={currentStep === 1}
+              className="flex items-center px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Previous
+            </motion.button>
+
+            <div className="flex space-x-3">
+              {currentStep < 3 ? (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleNext}
+                  disabled={!isStepValid(currentStep)}
+                  className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Next
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </motion.button>
+              ) : (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleCreate}
+                  disabled={isCreating || !isStepValid(currentStep)}
+                  className="flex items-center px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isCreating ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                      Creating...
+                    </>
+                  ) : (
+                    <>
+                      Create Agent
+                      <Sparkles className="w-4 h-4 ml-2" />
+                    </>
+                  )}
+                </motion.button>
+              )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </ProtectedRoute>

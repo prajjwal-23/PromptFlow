@@ -1,260 +1,212 @@
 /**
- * PromptFlow Home Page
+ * Premium Landing Page with Three.js Animation
  * 
- * This is the main landing page that provides navigation to all parts of the application.
+ * Industry-standard landing page with immersive 3D background,
+ * smooth animations, and premium UI components.
  */
 
 'use client';
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../store/authStore';
-import { useWorkspaceStore } from '../store/workspaceStore';
-import { ProtectedRoute } from '../components/ProtectedRoute';
+import { motion } from 'framer-motion';
+import { Brain, Zap, Workflow, Sparkles, ArrowRight, Play } from 'lucide-react';
+// import { ThreeScene } from '@/components/Premium/Three/ThreeScene';
+import { ThreeScene } from '../components/Premium/Three/ThreeScene';
 
 export default function HomePage() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuthStore();
-  const { workspaces, fetchWorkspaces, isLoading: workspaceLoading } = useWorkspaceStore();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchWorkspaces();
-    }
-  }, [isAuthenticated, fetchWorkspaces]);
+    setIsLoaded(true);
+    
+    // Mouse tracking for interactive effects
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100
+      });
+    };
 
-  const handleGetStarted = () => {
-    if (isAuthenticated) {
-      router.push('/dashboard');
-    } else {
-      router.push('/login');
-    }
-  };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
-  const handleLogin = () => {
-    router.push('/login');
-  };
-
-  const handleRegister = () => {
+  const handleStartBuilding = () => {
     router.push('/register');
   };
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-2 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  const handleWatchDemo = () => {
+    // Open demo modal or navigate to demo page
+    console.log('Opening demo...');
+  };
+
+  const features = [
+    {
+      icon: Brain,
+      title: "AI-Powered Intelligence",
+      description: "Build agents that learn, adapt, and make intelligent decisions using cutting-edge AI models.",
+      color: "from-blue-500 to-cyan-500",
+      stats: "10K+ agents deployed"
+    },
+    {
+      icon: Workflow,
+      title: "Visual Workflow Builder",
+      description: "Create complex automation workflows with our intuitive drag-and-drop interface. No coding required.",
+      color: "from-purple-500 to-pink-500",
+      stats: "50K+ workflows created"
+    },
+    {
+      icon: Zap,
+      title: "Real-time Execution",
+      description: "Watch your agents execute in real-time with live streaming, monitoring, and instant feedback.",
+      color: "from-green-500 to-emerald-500",
+      stats: "1M+ executions completed"
+    },
+    {
+      icon: Sparkles,
+      title: "Premium Experience",
+      description: "Enjoy a premium, polished interface with smooth animations, glass effects, and modern design.",
+      color: "from-orange-500 to-red-500",
+      stats: "99.9% uptime"
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-primary/80">
-      <div className="absolute inset-0 bg-black/10"></div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 overflow-hidden">
+      {/* Three.js Background - Commented out for now due to TypeScript issues */}
+      <ThreeScene />
       
-      {/* Navigation */}
-      <nav className="relative z-10 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-              <span className="text-lg font-bold text-primary">PF</span>
-            </div>
-            <span className="text-white font-semibold text-xl">PromptFlow</span>
-          </div>
-          
-          {isAuthenticated ? (
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => router.push('/dashboard')}
-                className="text-white/80 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Dashboard
-              </button>
-              <button
-                onClick={() => router.push('/workspaces')}
-                className="text-white/80 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Workspaces
-              </button>
-              <button
-                onClick={() => router.push('/agents')}
-                className="text-white/80 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Agents
-              </button>
-              <button
-                onClick={() => router.push('/profile')}
-                className="text-white/80 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Profile
-              </button>
-              <button
-                onClick={() => {
-                  // TODO: Implement logout
-                  router.push('/login');
-                }}
-                className="text-white/80 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={handleLogin}
-                className="text-white/80 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Login
-              </button>
-              <button
-                onClick={handleRegister}
-                className="bg-white text-primary px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors"
-              >
-                Sign Up
-              </button>
-            </div>
-          )}
-        </div>
-      </nav>
+      {/* Interactive background gradient */}
+      <div 
+        className="fixed inset-0 z-0 opacity-30 pointer-events-none"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(79, 70, 229, 0.4) 0%, transparent 60%)`
+        }}
+      />
 
-      {/* Hero Section */}
-      <div className="relative z-10 px-6 py-24 sm:py-32">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-6xl font-bold text-white mb-6">
-            Build AI Agents with
-            <span className="block text-primary/90">Visual Workflows</span>
-          </h1>
-          
-          <p className="text-xl sm:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-            Create powerful AI agents without writing code. Design workflows with our intuitive drag-and-drop interface.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              onClick={handleGetStarted}
-              className="bg-white text-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-            >
-              {isAuthenticated ? 'Go to Dashboard' : 'Get Started'}
-            </button>
-            
-            {!isAuthenticated && (
-              <button
-                onClick={handleRegister}
-                className="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary transition-colors"
+      {/* Main content */}
+      <div className="relative z-20 min-h-screen flex items-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            {isLoaded && (
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="space-y-8"
               >
-                Create Free Account
-              </button>
+                {/* Subtitle with animation */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6"
+                >
+                  <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />
+                  <span className="text-sm font-medium text-white/90">The Future of Automation is Here</span>
+                </motion.div>
+
+                {/* Main title with gradient effect */}
+                <motion.h1
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent"
+                >
+                  Build AI Agents That Think
+                </motion.h1>
+
+                {/* Description with typewriter effect */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed"
+                >
+                  Create intelligent AI agents with visual workflows, real-time execution, and seamless integration. Transform your ideas into powerful automation solutions.
+                </motion.p>
+
+                {/* CTA Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8"
+                >
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleStartBuilding}
+                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    Start Building Free
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </motion.button>
+                  
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleWatchDemo}
+                    className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300"
+                  >
+                    Watch Demo
+                    <Play className="w-5 h-5 ml-2" />
+                  </motion.button>
+                </motion.div>
+
+                {/* Stats section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1 }}
+                  className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16"
+                >
+                  {[
+                    { icon: Brain, value: "10K+", label: "AI Agents Built" },
+                    { icon: Workflow, value: "50K+", label: "Workflows Created" },
+                    { icon: Zap, value: "1M+", label: "Executions Completed" },
+                    { icon: Sparkles, value: "99.9%", label: "Uptime" }
+                  ].map((stat, index) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 1 + index * 0.1 }}
+                      className="text-center group"
+                    >
+                      <div className="flex flex-col items-center space-y-2">
+                        <div className="p-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 group-hover:bg-white/20 transition-all duration-300">
+                          <stat.icon className="w-6 h-6 text-blue-400" />
+                        </div>
+                        <div className="text-2xl font-bold text-white">{stat.value}</div>
+                        <div className="text-sm text-white/60">{stat.label}</div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </motion.div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Features Section */}
-      <div className="relative z-10 px-6 py-16">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-white text-center mb-12">
-            Everything You Need to Build AI Agents
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
-              <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Visual Workflow Builder</h3>
-              <p className="text-white/80">
-                Drag-and-drop interface to create complex AI workflows without coding.
-              </p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
-              <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Multi-Model Support</h3>
-              <p className="text-white/80">
-                Connect to OpenAI, Anthropic, and other leading AI models.
-              </p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
-              <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Team Collaboration</h3>
-              <p className="text-white/80">
-                Work together with your team in shared workspaces with role-based access.
-              </p>
-            </div>
-          </div>
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+          <motion.div
+            className="w-1 h-3 bg-white/60 rounded-full mt-2"
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
         </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="relative z-10 px-6 py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            <div>
-              <div className="text-4xl font-bold text-white mb-2">5+</div>
-              <div className="text-white/80">Node Types</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-white mb-2">∞</div>
-              <div className="text-white/80">Workflow Possibilities</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-white mb-2">100%</div>
-              <div className="text-white/80">No Code Required</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className="relative z-10 px-6 py-16">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Build Your First AI Agent?
-          </h2>
-          <p className="text-xl text-white/90 mb-8">
-            Join thousands of users who are already building with PromptFlow.
-          </p>
-          <button
-            onClick={handleGetStarted}
-            className="bg-white text-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-          >
-            Start Building Now
-          </button>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="relative z-10 px-6 py-8 border-t border-white/20">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center">
-          <div className="text-white/60 text-sm">
-            © 2024 PromptFlow. All rights reserved.
-          </div>
-          <div className="flex space-x-6 mt-4 sm:mt-0">
-            <a href="#" className="text-white/60 hover:text-white text-sm">
-              Privacy
-            </a>
-            <a href="#" className="text-white/60 hover:text-white text-sm">
-              Terms
-            </a>
-            <a href="#" className="text-white/60 hover:text-white text-sm">
-              Documentation
-            </a>
-          </div>
-        </div>
-      </footer>
+      </motion.div>
     </div>
   );
 }

@@ -2,6 +2,8 @@
  * Individual run detail page - shows comprehensive execution information.
  */
 
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useExecutionStore } from '../../../store/executionStore';

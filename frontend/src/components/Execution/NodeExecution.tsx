@@ -1,9 +1,11 @@
 /**
  * NodeExecution component for displaying individual node execution status.
- * 
+ *
  * This component shows the status of individual nodes in the execution graph,
  * including progress, timing, and detailed node information.
  */
+
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useExecutionStore } from '../../store/executionStore';

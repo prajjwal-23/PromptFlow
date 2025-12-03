@@ -1,9 +1,11 @@
 /**
  * ExecutionLog component for execution history and log viewing.
- * 
+ *
  * This component displays execution history, logs, and provides filtering
  * and search capabilities for past executions.
  */
+
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useExecutionStore } from '../../store/executionStore';

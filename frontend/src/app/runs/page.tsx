@@ -2,6 +2,8 @@
  * Runs listing page - displays all executions with filtering and search.
  */
 
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useExecutionStore } from '../../store/executionStore';
 import { useAuthStore } from '../../store/authStore';

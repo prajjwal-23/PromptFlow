@@ -5,6 +5,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import axios from 'axios';
+import { saveAuthState, clearAuthState, getStoredAuthState } from '../utils/authUtils';
 
 // Types
 export interface User {
@@ -118,9 +119,8 @@ export const useAuthStore = create<AuthState>()(
 
           const { access_token, refresh_token, user } = response.data;
 
-          // Store tokens securely
-          localStorage.setItem('accessToken', access_token);
-          localStorage.setItem('refreshToken', refresh_token);
+          // Store tokens securely using utility function
+          saveAuthState(access_token, refresh_token, user);
 
           set({
             user,
@@ -173,9 +173,8 @@ export const useAuthStore = create<AuthState>()(
           // Even if logout endpoint fails, clear local state
           console.error('Logout error:', error);
         } finally {
-          // Clear all auth data
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
+          // Clear all auth data using utility function
+          clearAuthState();
 
           set({
             user: null,
@@ -200,8 +199,10 @@ export const useAuthStore = create<AuthState>()(
           });
 
           const { access_token } = response.data;
+          
+          // Update localStorage with new token
           localStorage.setItem('accessToken', access_token);
-
+          
           set({ accessToken: access_token });
         } catch (error) {
           // If refresh fails, logout user
@@ -241,12 +242,30 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => {
+        // Create a custom storage that doesn't persist sensitive data
+        const storage = {
+          getItem: (name: string) => {
+            if (typeof window === 'undefined') return null;
+            const item = localStorage.getItem(name);
+            return item ? JSON.parse(item) : null;
+          },
+          setItem: (name: string, value: any) => {
+            if (typeof window === 'undefined') return;
+            localStorage.setItem(name, JSON.stringify(value));
+          },
+          removeItem: (name: string) => {
+            if (typeof window === 'undefined') return;
+            localStorage.removeItem(name);
+          }
+        };
+        return storage;
+      }),
       partialize: (state) => ({
-        user: state.user,
-        accessToken: state.accessToken,
-        refreshToken: state.refreshToken,
+        // Only persist non-sensitive state
         isAuthenticated: state.isAuthenticated,
+        user: state.user,
+        // Don't persist tokens in Zustand storage - they're handled separately
       }),
     }
   )
@@ -256,17 +275,25 @@ export const useAuthStore = create<AuthState>()(
 export { api };
 
 // Helper function to check if token is expired
-export const isTokenExpired = (token: string | null): boolean => {
+const isTokenExpired = (token: string | null): boolean => {
   if (!token) return true;
 
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      return true;
+    }
+    
+    const payload = JSON.parse(atob(parts[1]));
     const now = Date.now() / 1000;
     return payload.exp < now;
   } catch {
     return true;
   }
 };
+
+// Export the helper function for use in other modules
+export { isTokenExpired };
 
 // Initialize auth state from persisted storage
 export const initializeAuth = async () => {

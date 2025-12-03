@@ -1,13 +1,15 @@
 /**
  * Protected Route Component
- * 
+ *
  * This component protects routes that require authentication.
  * It checks if the user is authenticated and redirects to login if not.
  */
 
+'use client';
+
 import { useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore, initializeAuth } from '../store/authStore';
+import { useAuthStore } from '../store/authStore';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -24,14 +26,6 @@ export function ProtectedRoute({
   const { isAuthenticated, isLoading, user } = useAuthStore();
 
   useEffect(() => {
-    // Initialize auth state on mount
-    const initAuth = async () => {
-      await initializeAuth();
-    };
-    initAuth();
-  }, []);
-
-  useEffect(() => {
     // If not loading and not authenticated, redirect to login
     if (!isLoading && !isAuthenticated) {
       router.push(redirectTo);
@@ -42,10 +36,10 @@ export function ProtectedRoute({
   if (isLoading) {
     return (
       fallback || (
-        <div className="flex min-h-screen items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
           <div className="flex flex-col items-center gap-4">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-            <p className="text-sm text-muted-foreground">Loading...</p>
+            <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-white text-lg">Loading...</p>
           </div>
         </div>
       )
@@ -67,14 +61,6 @@ export function useRequireAuth() {
   const router = useRouter();
 
   useEffect(() => {
-    // Initialize auth state on mount
-    const initAuth = async () => {
-      await initializeAuth();
-    };
-    initAuth();
-  }, []);
-
-  useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/login');
     }
@@ -90,14 +76,6 @@ export function withAuth<P extends object>(Component: React.ComponentType<P>) {
     const router = useRouter();
 
     useEffect(() => {
-      // Initialize auth state on mount
-      const initAuth = async () => {
-        await initializeAuth();
-      };
-      initAuth();
-    }, []);
-
-    useEffect(() => {
       if (!isLoading && !isAuthenticated) {
         router.push('/login');
       }
@@ -105,10 +83,10 @@ export function withAuth<P extends object>(Component: React.ComponentType<P>) {
 
     if (isLoading) {
       return (
-        <div className="flex min-h-screen items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
           <div className="flex flex-col items-center gap-4">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-            <p className="text-sm text-muted-foreground">Loading...</p>
+            <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-white text-lg">Loading...</p>
           </div>
         </div>
       );
