@@ -111,13 +111,13 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
         return (
           <>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Input Type
               </label>
               <select
                 value={(formData.config && formData.config.inputType) || 'text'}
                 onChange={(e) => handleChange('inputType', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+                className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="text">Text</option>
                 <option value="textarea">Textarea</option>
@@ -128,20 +128,20 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Placeholder Text
               </label>
               <input
                 type="text"
                 value={(formData.config && formData.config.placeholder) || ''}
                 onChange={(e) => handleChange('placeholder', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
-                  formErrors.placeholder ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                  formErrors.placeholder ? 'border-destructive bg-destructive/5' : 'border-input bg-background'
                 }`}
                 placeholder="Enter placeholder text..."
               />
               {formErrors.placeholder && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.placeholder}</p>
+                <p className="mt-1 text-sm text-destructive">{formErrors.placeholder}</p>
               )}
             </div>
 
@@ -151,9 +151,9 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 id="required"
                 checked={(formData.config && formData.config.required) || false}
                 onChange={(e) => handleChange('required', e.target.checked)}
-                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                className="h-4 w-4 text-primary focus:ring-2 focus:ring-primary border-input rounded"
               />
-              <label htmlFor="required" className="ml-2 text-sm text-gray-700">
+              <label htmlFor="required" className="ml-2 text-sm text-foreground">
                 Required field
               </label>
             </div>
@@ -164,14 +164,14 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
         return (
           <>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Model
               </label>
               <select
                 value={(formData.config && formData.config.model) || 'gpt-3.5-turbo'}
                 onChange={(e) => handleChange('model', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
-                  formErrors.model ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                  formErrors.model ? 'border-destructive bg-destructive/5' : 'border-input bg-background'
                 }`}
               >
                 <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
@@ -181,12 +181,12 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 <option value="claude-3-sonnet">Claude 3 Sonnet</option>
               </select>
               {formErrors.model && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.model}</p>
+                <p className="mt-1 text-sm text-destructive">{formErrors.model}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Temperature: {(formData.config && formData.config.temperature) || 0.7}
               </label>
               <input
@@ -199,12 +199,12 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 className="w-full"
               />
               {formErrors.temperature && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.temperature}</p>
+                <p className="mt-1 text-sm text-destructive">{formErrors.temperature}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Max Tokens
               </label>
               <input
@@ -213,19 +213,19 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 max="4000"
                 value={(formData.config && formData.config.maxTokens) || 1000}
                 onChange={(e) => handleChange('maxTokens', parseInt(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+                className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 System Prompt
               </label>
               <textarea
                 rows={4}
                 value={(formData.config && formData.config.systemPrompt) || ''}
                 onChange={(e) => handleChange('systemPrompt', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+                className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                 placeholder="Enter system prompt..."
               />
             </div>
@@ -236,25 +236,25 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
         return (
           <>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Collection Name
               </label>
               <input
                 type="text"
                 value={(formData.config && formData.config.collection) || ''}
                 onChange={(e) => handleChange('collection', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
-                  formErrors.collection ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                  formErrors.collection ? 'border-destructive bg-destructive/5' : 'border-input bg-background'
                 }`}
                 placeholder="Enter collection name..."
               />
               {formErrors.collection && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.collection}</p>
+                <p className="mt-1 text-sm text-destructive">{formErrors.collection}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Max Results
               </label>
               <input
@@ -263,17 +263,17 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
                 max="100"
                 value={(formData.config && formData.config.maxResults) || 5}
                 onChange={(e) => handleChange('maxResults', parseInt(e.target.value))}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
-                  formErrors.maxResults ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                  formErrors.maxResults ? 'border-destructive bg-destructive/5' : 'border-input bg-background'
                 }`}
               />
               {formErrors.maxResults && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.maxResults}</p>
+                <p className="mt-1 text-sm text-destructive">{formErrors.maxResults}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Similarity Threshold: {(formData.config && formData.config.similarityThreshold) || 0.7}
               </label>
               <input
@@ -293,13 +293,13 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
         return (
           <>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Output Type
               </label>
               <select
                 value={(formData.config && formData.config.outputType) || 'text'}
                 onChange={(e) => handleChange('outputType', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+                className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="text">Text</option>
                 <option value="json">JSON</option>
@@ -309,13 +309,13 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Format
               </label>
               <select
                 value={(formData.config && formData.config.format) || 'plain'}
                 onChange={(e) => handleChange('format', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+                className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="plain">Plain</option>
                 <option value="formatted">Formatted</option>
@@ -329,13 +329,13 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
         return (
           <>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Tool Type
               </label>
               <select
                 value={(formData.config && formData.config.toolType) || 'api'}
                 onChange={(e) => handleChange('toolType', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+                className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="api">API Call</option>
                 <option value="function">Function</option>
@@ -344,31 +344,31 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Endpoint URL
               </label>
               <input
                 type="url"
                 value={(formData.config && formData.config.endpoint) || ''}
                 onChange={(e) => handleChange('endpoint', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-primary focus:border-primary ${
-                  formErrors.endpoint ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                  formErrors.endpoint ? 'border-destructive bg-destructive/5' : 'border-input bg-background'
                 }`}
                 placeholder="https://api.example.com/endpoint"
               />
               {formErrors.endpoint && (
-                <p className="mt-1 text-sm text-red-600">{formErrors.endpoint}</p>
+                <p className="mt-1 text-sm text-destructive">{formErrors.endpoint}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 HTTP Method
               </label>
               <select
                 value={(formData.config && formData.config.method) || 'POST'}
                 onChange={(e) => handleChange('method', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+                className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="GET">GET</option>
                 <option value="POST">POST</option>
@@ -387,7 +387,7 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div
@@ -397,13 +397,13 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
               <span>{nodeTypeConfig.icon}</span>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-gray-900">Node Properties</h2>
-              <p className="text-sm text-gray-500">{nodeTypeConfig.label}</p>
+              <h2 className="text-lg font-semibold text-foreground">Node Properties</h2>
+              <p className="text-sm text-muted-foreground">{nodeTypeConfig.label}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 rounded-md"
+            className="p-2 text-muted-foreground hover:text-foreground rounded-md transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -417,21 +417,21 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
         <div className="space-y-6">
           {/* Basic Info */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Node Label
             </label>
             <input
               type="text"
               value={formData.label || ''}
               onChange={(e) => handleLabelChange(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               placeholder="Enter node label..."
             />
           </div>
 
           {/* Configuration Fields */}
           <div>
-            <h3 className="text-sm font-medium text-gray-900 mb-3">Configuration</h3>
+            <h3 className="text-sm font-medium text-foreground mb-3">Configuration</h3>
             <div className="space-y-4">
               {renderConfigFields()}
             </div>
@@ -440,17 +440,17 @@ export function NodeProperties({ node, onClose, onUpdateNodeData }: NodeProperti
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t border-border">
         <div className="flex space-x-3">
           <button
             onClick={handleSave}
-            className="flex-1 px-4 py-2 bg-primary text-white font-medium rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+            className="flex-1 px-4 py-2 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           >
             Save Changes
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+            className="px-4 py-2 border border-input bg-background text-foreground font-medium rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           >
             Cancel
           </button>

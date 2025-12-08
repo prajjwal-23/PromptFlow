@@ -201,19 +201,19 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
         {nodes.map(node => (
           <div
             key={node.id}
-            className="flex items-center space-x-3 p-2 bg-gray-50 rounded-md"
+            className="flex items-center space-x-3 p-2 bg-muted/50 rounded-md"
           >
             {getStatusIcon(node.status)}
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-900 truncate">
+                <span className="text-sm font-medium text-foreground truncate">
                   {node.name}
                 </span>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-muted-foreground">
                   {formatDuration(node.duration)}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
+              <div className="w-full bg-muted rounded-full h-1 mt-1">
                 <div
                   className="bg-blue-600 h-1 rounded-full transition-all duration-300"
                   style={{ width: `${getNodeProgress(node)}%` }}
@@ -227,20 +227,20 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
   }
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 ${className}`}>
+    <div className={`bg-background border border-border rounded-lg shadow-sm ${className}`}>
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className="px-6 py-4 border-b border-border">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-medium text-gray-900">Node Execution</h3>
-          <div className="flex items-center space-x-4 text-sm text-gray-600">
+          <h3 className="text-lg font-semibold text-foreground">Node Execution</h3>
+          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <span>Total: {nodes.length}</span>
-            <span className="text-green-600">
+            <span className="text-success">
               Completed: {nodes.filter(n => n.status === 'completed').length}
             </span>
-            <span className="text-red-600">
+            <span className="text-destructive">
               Failed: {nodes.filter(n => n.status === 'failed').length}
             </span>
-            <span className="text-blue-600">
+            <span className="text-primary">
               Running: {nodes.filter(n => n.status === 'running').length}
             </span>
           </div>
@@ -248,9 +248,9 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
       </div>
 
       {/* Nodes List */}
-      <div className="divide-y divide-gray-200">
+      <div className="divide-y divide-border">
         {nodes.length === 0 ? (
-          <div className="px-6 py-8 text-center text-gray-500">
+          <div className="px-6 py-8 text-center text-muted-foreground">
             <div className="text-lg font-medium mb-2">No nodes executing</div>
             <div className="text-sm">
               Start an execution to see node status here
@@ -260,8 +260,8 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
           nodes.map(node => (
             <div
               key={node.id}
-              className={`px-6 py-4 hover:bg-gray-50 cursor-pointer transition-colors ${
-                selectedNode?.id === node.id ? 'bg-gray-50' : ''
+              className={`px-6 py-4 hover:bg-muted/50 cursor-pointer transition-colors ${
+                selectedNode?.id === node.id ? 'bg-muted/50' : ''
               }`}
               onClick={() => setSelectedNode(selectedNode?.id === node.id ? null : node)}
             >
@@ -275,10 +275,10 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900">
+                      <h4 className="text-sm font-medium text-foreground">
                         {node.name}
                       </h4>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-muted-foreground">
                         Type: {node.type} • ID: {node.id}
                       </p>
                     </div>
@@ -289,7 +289,7 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
 
                   {/* Progress Bar */}
                   <div className="mt-3">
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-muted rounded-full h-2">
                       <div
                         className={`h-2 rounded-full transition-all duration-300 ${
                           node.status === 'completed' ? 'bg-green-600' :
@@ -302,7 +302,7 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
                   </div>
 
                   {/* Metrics */}
-                  <div className="mt-3 flex items-center space-x-6 text-sm text-gray-600">
+                  <div className="mt-3 flex items-center space-x-6 text-sm text-muted-foreground">
                     <div>
                       <span className="font-medium">Duration:</span>
                       <span className="ml-1">{formatDuration(node.duration)}</span>
@@ -323,42 +323,42 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
 
                   {/* Error Message */}
                   {node.error && (
-                    <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-md">
+                    <div className="mt-3 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
                       <div className="flex">
-                        <ExclamationTriangleIcon className="h-5 w-5 text-red-400 mr-2" />
-                        <p className="text-sm text-red-800">{node.error}</p>
+                        <ExclamationTriangleIcon className="h-5 w-5 text-destructive mr-2" />
+                        <p className="text-sm text-destructive">{node.error}</p>
                       </div>
                     </div>
                   )}
 
                   {/* Expanded Details */}
                   {selectedNode?.id === node.id && showDetails && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-md">
-                      <h5 className="text-sm font-medium text-gray-900 mb-3">Node Details</h5>
+                    <div className="mt-4 p-4 bg-muted/50 rounded-md">
+                      <h5 className="text-sm font-medium text-foreground mb-3">Node Details</h5>
                       
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <span className="font-medium text-gray-700">Node ID:</span>
-                          <p className="text-gray-600">{node.id}</p>
+                          <span className="font-medium text-foreground">Node ID:</span>
+                          <p className="text-muted-foreground">{node.id}</p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">Type:</span>
-                          <p className="text-gray-600">{node.type}</p>
+                          <span className="font-medium text-foreground">Type:</span>
+                          <p className="text-muted-foreground">{node.type}</p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">Status:</span>
-                          <p className="text-gray-600">{node.status}</p>
+                          <span className="font-medium text-foreground">Status:</span>
+                          <p className="text-muted-foreground">{node.status}</p>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-700">Progress:</span>
-                          <p className="text-gray-600">{getNodeProgress(node)}%</p>
+                          <span className="font-medium text-foreground">Progress:</span>
+                          <p className="text-muted-foreground">{getNodeProgress(node)}%</p>
                         </div>
                       </div>
 
                       {node.output && (
                         <div className="mt-4">
-                          <h6 className="text-sm font-medium text-gray-900 mb-2">Output</h6>
-                          <pre className="text-xs text-gray-600 bg-white p-3 rounded border border-gray-200 overflow-auto max-h-32">
+                          <h6 className="text-sm font-medium text-foreground mb-2">Output</h6>
+                          <pre className="text-xs text-muted-foreground bg-background p-3 rounded border border-border overflow-auto max-h-32">
                             {typeof node.output === 'string' 
                               ? node.output 
                               : JSON.stringify(node.output, null, 2)
@@ -370,13 +370,13 @@ export const NodeExecution: React.FC<NodeExecutionProps> = ({
                       {node.startTime && (
                         <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
                           <div>
-                            <span className="font-medium text-gray-700">Start Time:</span>
-                            <p className="text-gray-600">{new Date(node.startTime).toLocaleString()}</p>
+                            <span className="font-medium text-foreground">Start Time:</span>
+                            <p className="text-muted-foreground">{new Date(node.startTime).toLocaleString()}</p>
                           </div>
                           {node.endTime && (
                             <div>
-                              <span className="font-medium text-gray-700">End Time:</span>
-                              <p className="text-gray-600">{new Date(node.endTime).toLocaleString()}</p>
+                              <span className="font-medium text-foreground">End Time:</span>
+                              <p className="text-muted-foreground">{new Date(node.endTime).toLocaleString()}</p>
                             </div>
                           )}
                         </div>

@@ -32,9 +32,9 @@ export function NodePalette({ onAddNode }: NodePaletteProps) {
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-medium text-gray-900">Node Palette</h2>
-        <p className="text-sm text-gray-500 mt-1">
+      <div className="p-4 border-b border-border">
+        <h2 className="text-lg font-semibold text-foreground">Node Palette</h2>
+        <p className="text-sm text-muted-foreground mt-1">
           Drag or click to add nodes to your workflow
         </p>
       </div>
@@ -50,7 +50,7 @@ export function NodePalette({ onAddNode }: NodePaletteProps) {
               onDragStart={(event) => handleDragStart(event, type)}
               onClick={() => handleNodeClick(type)}
             >
-              <div className="p-3 border border-gray-200 rounded-lg hover:border-primary hover:shadow-md transition-all duration-200">
+              <div className="p-3 border border-input rounded-lg hover:border-primary hover:shadow-md transition-all duration-200 bg-background">
                 <div className="flex items-center space-x-3">
                   {/* Node Icon */}
                   <div
@@ -62,10 +62,10 @@ export function NodePalette({ onAddNode }: NodePaletteProps) {
 
                   {/* Node Info */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-medium text-gray-900 truncate">
+                    <h3 className="text-sm font-medium text-foreground truncate">
                       {config.label}
                     </h3>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {config.description}
                     </p>
                   </div>
@@ -73,7 +73,7 @@ export function NodePalette({ onAddNode }: NodePaletteProps) {
                   {/* Add Button */}
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <button
-                      className="p-1 text-primary hover:text-primary/80"
+                      className="p-1 text-primary hover:text-primary/80 transition-colors"
                       title={`Add ${config.label} node`}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,12 +93,12 @@ export function NodePalette({ onAddNode }: NodePaletteProps) {
                   <div className="flex items-center space-x-2">
                     {config.inputs.length > 0 && (
                       <div className="flex items-center space-x-1">
-                        <span className="text-gray-500">Inputs:</span>
+                        <span className="text-muted-foreground">Inputs:</span>
                         <div className="flex space-x-1">
                           {config.inputs.map((input, index) => (
                             <div
                               key={index}
-                              className="w-2 h-2 bg-blue-500 rounded-full"
+                              className="w-2 h-2 bg-primary rounded-full"
                               title={input}
                             />
                           ))}
@@ -109,12 +109,12 @@ export function NodePalette({ onAddNode }: NodePaletteProps) {
                   <div className="flex items-center space-x-2">
                     {config.outputs.length > 0 && (
                       <div className="flex items-center space-x-1">
-                        <span className="text-gray-500">Outputs:</span>
+                        <span className="text-muted-foreground">Outputs:</span>
                         <div className="flex space-x-1">
                           {config.outputs.map((output, index) => (
                             <div
                               key={index}
-                              className="w-2 h-2 bg-green-500 rounded-full"
+                              className="w-2 h-2 bg-success rounded-full"
                               title={output}
                             />
                           ))}
@@ -130,9 +130,9 @@ export function NodePalette({ onAddNode }: NodePaletteProps) {
       </div>
 
       {/* Help Section */}
-      <div className="p-4 border-t border-gray-200 bg-gray-50">
-        <h3 className="text-sm font-medium text-gray-900 mb-2">Quick Tips</h3>
-        <ul className="text-xs text-gray-600 space-y-1">
+      <div className="p-4 border-t border-border bg-muted/50">
+        <h3 className="text-sm font-medium text-foreground mb-2">Quick Tips</h3>
+        <ul className="text-xs text-muted-foreground space-y-1">
           <li>• Drag nodes onto the canvas to add them</li>
           <li>• Click nodes to configure their properties</li>
           <li>• Connect nodes by dragging from output to input handles</li>

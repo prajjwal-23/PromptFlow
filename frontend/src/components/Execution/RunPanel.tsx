@@ -155,19 +155,19 @@ export const RunPanel: React.FC<RunPanelProps> = ({
   };
 
   return (
-    <div className={`group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/50 backdrop-blur-xl shadow-2xl ${className}`}>
+    <div className={`group relative overflow-hidden rounded-xl border border-border bg-background/95 backdrop-blur-xl shadow-2xl ${className}`}>
       {/* Ambient Glow */}
-      <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-indigo-500/10 blur-3xl transition-all duration-500 group-hover:bg-indigo-500/20" />
+      <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-primary/10 blur-3xl transition-all duration-500 group-hover:bg-primary/20" />
 
       {/* Header */}
-      <div className="relative flex items-center justify-between border-b border-zinc-800/50 px-6 py-4">
+      <div className="relative flex items-center justify-between border-b border-border/50 px-6 py-4">
         <div className="flex items-center gap-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 ring-1 ring-white/10">
-            <PlayIcon className="h-5 w-5 text-indigo-400" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted ring-1 ring-border">
+            <PlayIcon className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-zinc-100">Control Center</h3>
-            <p className="text-xs text-zinc-500">Manage agent execution flow</p>
+            <h3 className="text-sm font-semibold text-foreground">Control Center</h3>
+            <p className="text-xs text-muted-foreground">Manage agent execution flow</p>
           </div>
         </div>
 
@@ -175,10 +175,10 @@ export const RunPanel: React.FC<RunPanelProps> = ({
           {currentExecution && <StatusBadge status={currentExecution.status} />}
 
           <div className={`flex items-center gap-2 px-2 py-1 rounded-full text-xs font-medium border ${websocketConnected
-              ? 'bg-emerald-500/5 text-emerald-500 border-emerald-500/20'
-              : 'bg-red-500/5 text-red-500 border-red-500/20'
+              ? 'bg-success/10 text-success border-success/30'
+              : 'bg-destructive/10 text-destructive border-destructive/30'
             }`}>
-            <div className={`h-1.5 w-1.5 rounded-full ${websocketConnected ? 'bg-emerald-500' : 'bg-red-500'}`} />
+          <div className={`h-1.5 w-1.5 rounded-full ${websocketConnected ? 'bg-success' : 'bg-destructive'}`} />
             {websocketConnected ? 'Live' : 'Offline'}
           </div>
         </div>
@@ -188,18 +188,18 @@ export const RunPanel: React.FC<RunPanelProps> = ({
       <div className="relative px-6 py-6">
         {/* Error Display */}
         {error && (
-          <div className="mb-6 rounded-lg border border-red-500/20 bg-red-500/5 p-4">
+          <div className="mb-6 rounded-lg border border-destructive/20 bg-destructive/5 p-4">
             <div className="flex items-start gap-3">
-              <div className="rounded-full bg-red-500/10 p-1">
-                <svg className="h-4 w-4 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <div className="rounded-full bg-destructive/10 p-1">
+                <svg className="h-4 w-4 text-destructive" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-red-400">Execution Error</p>
-                <p className="mt-1 text-xs text-red-400/80">{error}</p>
+                <p className="text-sm font-medium text-destructive">Execution Error</p>
+                <p className="mt-1 text-xs text-destructive/80">{error}</p>
               </div>
-              <button onClick={clearError} className="text-red-400 hover:text-red-300">
+              <button onClick={clearError} className="text-destructive hover:text-destructive/80 transition-colors">
                 <span className="sr-only">Dismiss</span>
                 <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -215,7 +215,7 @@ export const RunPanel: React.FC<RunPanelProps> = ({
             <button
               onClick={handleStartExecution}
               disabled={isCreating || !agentId}
-              className="group relative flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-primary/40 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isCreating ? (
                 <svg className="h-5 w-5 animate-spin text-white/80" fill="none" viewBox="0 0 24 24">
@@ -233,7 +233,7 @@ export const RunPanel: React.FC<RunPanelProps> = ({
                 <button
                   onClick={handleCancelExecution}
                   disabled={isCancelling}
-                  className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-400 ring-1 ring-red-500/20 transition-all hover:bg-red-500/20 hover:text-red-300"
+                  className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-destructive/10 px-4 py-3 text-sm font-semibold text-destructive ring-1 ring-destructive/20 transition-all hover:bg-destructive/20 hover:text-destructive/80"
                 >
                   {isCancelling ? (
                     <svg className="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -249,7 +249,7 @@ export const RunPanel: React.FC<RunPanelProps> = ({
 
               <button
                 onClick={handlePauseExecution}
-                className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-zinc-800 px-4 py-3 text-sm font-semibold text-zinc-300 ring-1 ring-white/10 transition-all hover:bg-zinc-700 hover:text-white"
+                className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-muted px-4 py-3 text-sm font-semibold text-foreground ring-1 ring-border transition-all hover:bg-muted/80"
               >
                 <PauseIcon className="h-5 w-5" />
                 <span>Pause</span>
@@ -257,7 +257,7 @@ export const RunPanel: React.FC<RunPanelProps> = ({
 
               <button
                 onClick={handleResumeExecution}
-                className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-zinc-800 px-4 py-3 text-sm font-semibold text-zinc-300 ring-1 ring-white/10 transition-all hover:bg-zinc-700 hover:text-white"
+                className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-muted px-4 py-3 text-sm font-semibold text-foreground ring-1 ring-border transition-all hover:bg-muted/80"
               >
                 <PlayIcon className="h-5 w-5" />
                 <span>Resume</span>
@@ -268,7 +268,7 @@ export const RunPanel: React.FC<RunPanelProps> = ({
           {canRestart && (
             <button
               onClick={handleRestartExecution}
-              className="flex items-center justify-center gap-2 rounded-lg bg-zinc-800 px-4 py-3 text-sm font-semibold text-zinc-300 ring-1 ring-white/10 transition-all hover:bg-zinc-700 hover:text-white"
+              className="flex items-center justify-center gap-2 rounded-lg bg-muted px-4 py-3 text-sm font-semibold text-foreground ring-1 ring-border transition-all hover:bg-muted/80"
             >
               <ArrowPathIcon className="h-5 w-5" />
               <span>Restart</span>
@@ -279,13 +279,13 @@ export const RunPanel: React.FC<RunPanelProps> = ({
         {/* Stats Grid */}
         {currentExecution && (
           <div className="mt-6 grid grid-cols-2 gap-3">
-            <div className="rounded-lg bg-zinc-900/50 p-3 ring-1 ring-white/5">
-              <p className="text-xs font-medium text-zinc-500">Execution ID</p>
-              <p className="mt-1 truncate text-sm font-mono text-zinc-300">{currentExecution.id}</p>
+            <div className="rounded-lg bg-muted/50 p-3 ring-1 ring-border/50">
+              <p className="text-xs font-medium text-muted-foreground">Execution ID</p>
+              <p className="mt-1 truncate text-sm font-mono text-foreground">{currentExecution.id}</p>
             </div>
-            <div className="rounded-lg bg-zinc-900/50 p-3 ring-1 ring-white/5">
-              <p className="text-xs font-medium text-zinc-500">Started At</p>
-              <p className="mt-1 text-sm font-mono text-zinc-300">
+            <div className="rounded-lg bg-muted/50 p-3 ring-1 ring-border/50">
+              <p className="text-xs font-medium text-muted-foreground">Started At</p>
+              <p className="mt-1 text-sm font-mono text-foreground">
                 {currentExecution.started_at ? new Date(currentExecution.started_at).toLocaleTimeString() : '-'}
               </p>
             </div>
@@ -293,10 +293,10 @@ export const RunPanel: React.FC<RunPanelProps> = ({
         )}
 
         {/* Configuration Section */}
-        <div className="mt-6 border-t border-zinc-800/50 pt-4">
+        <div className="mt-6 border-t border-border/50 pt-4">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-sm font-medium text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+            className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
           >
             <span>Input Configuration</span>
             <ChevronDownIcon className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
@@ -318,19 +318,19 @@ export const RunPanel: React.FC<RunPanelProps> = ({
                         setInputData(newInputData);
                       }
                     }}
-                    className="flex-1 rounded-md border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-600 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                     placeholder="Key"
                   />
                   <input
                     type="text"
                     value={value}
                     onChange={(e) => handleInputChange(key, e.target.value)}
-                    className="flex-1 rounded-md border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-600 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                     placeholder="Value"
                   />
                   <button
                     onClick={() => removeInputField(key)}
-                    className="rounded-md p-2 text-zinc-500 hover:bg-red-500/10 hover:text-red-400"
+                    className="rounded-md p-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
                   >
                     <TrashIcon className="h-4 w-4" />
                   </button>
@@ -339,7 +339,7 @@ export const RunPanel: React.FC<RunPanelProps> = ({
 
               <button
                 onClick={addInputField}
-                className="flex w-full items-center justify-center gap-2 rounded-md border border-dashed border-zinc-800 py-2 text-sm text-zinc-500 hover:border-zinc-700 hover:bg-zinc-900/50 hover:text-zinc-300"
+                className="flex w-full items-center justify-center gap-2 rounded-md border border-dashed border-border py-2 text-sm text-muted-foreground hover:border-border hover:bg-muted/50 hover:text-foreground transition-colors"
               >
                 <PlusIcon className="h-4 w-4" />
                 <span>Add Input Parameter</span>

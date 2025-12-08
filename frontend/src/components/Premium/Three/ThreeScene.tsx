@@ -65,7 +65,7 @@ function ParticleField() {
       </bufferGeometry>
       <pointsMaterial
         size={0.05}
-        color="#ffffff"
+        color="hsl(var(--foreground))"
         transparent
         opacity={0.6}
         sizeAttenuation
@@ -85,23 +85,23 @@ export function ThreeScene() {
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#4f46e5" />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} color="hsl(var(--primary))" />
         
         {/* Background stars */}
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         
         {/* Floating geometric shapes */}
-        <FloatingShape position={[-4, 2, -5]} color="#4f46e5" scale={0.8} />
-        <FloatingShape position={[4, -2, -3]} color="#7c3aed" scale={1.2} />
-        <FloatingShape position={[0, 4, -8]} color="#06b6d4" scale={0.6} />
-        <FloatingShape position={[-6, -4, -6]} color="#10b981" scale={1.0} />
-        <FloatingShape position={[6, 3, -4]} color="#f59e0b" scale={0.9} />
+        <FloatingShape position={[-4, 2, -5]} color="hsl(var(--primary))" scale={0.8} />
+        <FloatingShape position={[4, -2, -3]} color="hsl(var(--accent))" scale={1.2} />
+        <FloatingShape position={[0, 4, -8]} color="hsl(var(--success))" scale={0.6} />
+        <FloatingShape position={[-6, -4, -6]} color="hsl(var(--primary)/80)" scale={1.0} />
+        <FloatingShape position={[6, 3, -4]} color="hsl(var(--primary)/60)" scale={0.9} />
         
         {/* Particle field */}
         <ParticleField />
         
         {/* Subtle fog effect */}
-        <fog attach="fog" args={['#0a0a0a', 5, 20]} />
+        <fog attach="fog" args={['hsl(var(--background))', 5, 20]} />
         
         {/* Optional orbit controls for development */}
         {/* <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} /> */}

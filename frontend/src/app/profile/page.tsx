@@ -58,7 +58,7 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
           <div className="text-white">Loading profile...</div>
         </div>
       </ProtectedRoute>
@@ -67,7 +67,7 @@ export default function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
         {/* Animated background particles */}
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(8)].map((_, i) => (
@@ -123,7 +123,7 @@ export default function ProfilePage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setIsEditing(true)}
-                    className="flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+                    className="flex items-center px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300"
                   >
                     <Edit3 className="w-4 h-4 mr-2" />
                     Edit Profile
@@ -135,8 +135,8 @@ export default function ProfilePage() {
                 {/* Avatar Section */}
                 <div className="flex items-center space-x-4">
                   <div className="relative">
-                    <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                      <span className="text-2xl font-bold text-white">
+                    <div className="w-20 h-20 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
+                      <span className="text-2xl font-bold text-black">
                         {user.full_name.charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -165,7 +165,7 @@ export default function ProfilePage() {
                         type="text"
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                         placeholder="Enter your full name"
                       />
                     ) : (
@@ -184,7 +184,7 @@ export default function ProfilePage() {
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                         placeholder="Enter your email"
                       />
                     ) : (
@@ -239,7 +239,7 @@ export default function ProfilePage() {
                       whileTap={{ scale: 0.95 }}
                       onClick={handleSave}
                       disabled={isLoading}
-                      className="flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 disabled:opacity-50"
+                      className="flex items-center px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-300 disabled:opacity-50"
                     >
                       {isLoading ? (
                         <>
@@ -278,7 +278,7 @@ export default function ProfilePage() {
                         type="checkbox"
                         checked={value}
                         onChange={(e) => setNotifications({ ...notifications, [key]: e.target.checked })}
-                        className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded focus:ring-blue-500"
+                        className="w-4 h-4 text-yellow-600 bg-white/10 border-white/20 rounded focus:ring-yellow-400"
                       />
                       <div>
                         <span className="text-white font-medium capitalize">

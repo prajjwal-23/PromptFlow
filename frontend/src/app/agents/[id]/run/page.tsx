@@ -74,7 +74,7 @@ export default function AgentRunPage() {
     return (
       <ProtectedRoute>
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400"></div>
         </div>
       </ProtectedRoute>
     );
@@ -89,7 +89,7 @@ export default function AgentRunPage() {
             <p className="text-gray-600 mb-4">The agent you're looking for doesn't exist or you don't have access to it.</p>
             <button
               onClick={handleBack}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+              className="px-4 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500"
             >
               Back to Agent
             </button>
@@ -110,7 +110,7 @@ export default function AgentRunPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <button
                     onClick={handleBack}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-500 hover:text-yellow-600"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -175,7 +175,7 @@ export default function AgentRunPage() {
                       rows={6}
                       value={inputData}
                       onChange={(e) => setInputData(e.target.value)}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                      className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm"
                       placeholder="Enter your input data here..."
                     />
                   </div>
@@ -183,7 +183,7 @@ export default function AgentRunPage() {
                   <button
                     onClick={handleRun}
                     disabled={isRunning || !inputData.trim()}
-                    className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isRunning ? (
                       <>
@@ -228,14 +228,14 @@ export default function AgentRunPage() {
               <div className="px-6 py-6">
                 {isRunning ? (
                   <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400 mx-auto"></div>
                     <p className="mt-2 text-gray-600">Agent is running...</p>
                   </div>
                 ) : runResult ? (
                   <div className="space-y-4">
                     <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      runResult.status === 'completed' 
-                        ? 'bg-green-100 text-green-800' 
+                      runResult.status === 'completed'
+                        ? 'bg-yellow-100 text-yellow-800'
                         : 'bg-red-100 text-red-800'
                     }`}>
                       {runResult.status === 'completed' ? 'Completed' : 'Failed'}

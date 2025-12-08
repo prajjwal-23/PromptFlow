@@ -25,9 +25,9 @@ export function LoadingScreen({
   const [currentStep, setCurrentStep] = useState(0);
 
   const steps = [
-    { icon: Brain, text: "Initializing AI Engine", color: "from-blue-500 to-cyan-500" },
-    { icon: Zap, text: "Loading Workflows", color: "from-purple-500 to-pink-500" },
-    { icon: Sparkles, text: "Preparing Interface", color: "from-green-500 to-emerald-500" }
+    { icon: Brain, text: "Initializing AI Engine", color: "from-primary to-accent" },
+    { icon: Zap, text: "Loading Workflows", color: "from-primary to-accent/80" },
+    { icon: Sparkles, text: "Preparing Interface", color: "from-success to-primary" }
   ];
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export function LoadingScreen({
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="fixed inset-0 z-50 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center"
+      className="fixed inset-0 z-50 bg-gradient-to-br from-background via-muted to-accent flex items-center justify-center"
     >
       <div className="text-center max-w-md mx-auto px-6">
         {/* Animated icon */}
@@ -106,8 +106,8 @@ export function LoadingScreen({
           className="mb-8"
         >
           <div className="relative inline-block">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-50 animate-pulse" />
-            <currentStepData.icon className="w-16 h-16 text-white relative z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-full blur-xl opacity-50 animate-pulse" />
+            <currentStepData.icon className="w-16 h-16 text-foreground relative z-10" />
           </div>
         </motion.div>
 
@@ -116,7 +116,7 @@ export function LoadingScreen({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-2xl font-bold text-white mb-2"
+          className="text-2xl font-bold text-foreground mb-2"
         >
           PromptFlow
         </motion.h2>
@@ -126,7 +126,7 @@ export function LoadingScreen({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-white/70 mb-8"
+          className="text-foreground/70 mb-8"
         >
           {currentStepData.text}
         </motion.p>
@@ -139,7 +139,7 @@ export function LoadingScreen({
             transition={{ delay: 0.4 }}
             className="w-full"
           >
-            <div className="h-2 bg-white/10 rounded-full overflow-hidden mb-4">
+            <div className="h-2 bg-muted/10 rounded-full overflow-hidden mb-4">
               <motion.div
                 variants={progressVariants}
                 initial="initial"
@@ -148,7 +148,7 @@ export function LoadingScreen({
               />
             </div>
             
-            <div className="flex justify-between text-xs text-white/50">
+            <div className="flex justify-between text-xs text-muted-foreground/50">
               <span>{Math.round(progress)}%</span>
               <span>{message}</span>
             </div>
@@ -165,7 +165,7 @@ export function LoadingScreen({
           {[0, 1, 2].map((i) => (
             <motion.div
               key={i}
-              className="w-2 h-2 bg-white/30 rounded-full"
+              className="w-2 h-2 bg-muted-foreground/30 rounded-full"
               animate={{
                 scale: [1, 1.5, 1],
                 opacity: [0.3, 1, 0.3]
@@ -185,7 +185,7 @@ export function LoadingScreen({
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full"
+            className="absolute w-1 h-1 bg-muted-foreground/20 rounded-full"
             style={{
               left: `${(i * 5) % 100}%`,
               top: `${(i * 7) % 100}%`,
@@ -219,9 +219,9 @@ export function LoadingScreenMinimal({ duration = 500, onComplete }: LoadingScre
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-gray-900 flex items-center justify-center"
+      className="fixed inset-0 z-50 bg-background flex items-center justify-center"
     >
-      <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin" />
+      <div className="w-8 h-8 border-4 border-foreground border-t-transparent rounded-full animate-spin" />
     </motion.div>
   );
 }

@@ -93,11 +93,11 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium text-gray-900">Workspace Members</h3>
+        <h3 className="text-lg font-semibold text-foreground">Workspace Members</h3>
         {canManageMembers && (
           <button
             onClick={() => setShowAddMemberForm(!showAddMemberForm)}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+            className="inline-flex items-center px-3 py-2 border border-input bg-background text-foreground shadow-sm text-sm font-medium rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -109,8 +109,8 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
 
       {/* Add Member Form */}
       {showAddMemberForm && canManageMembers && (
-        <div className="bg-gray-50 rounded-lg p-4">
-          <h4 className="text-sm font-medium text-gray-900 mb-3">Add New Member</h4>
+        <div className="bg-muted/50 rounded-lg p-4">
+        <h4 className="text-sm font-medium text-foreground mb-3">Add New Member</h4>
           <form onSubmit={handleAddMember} className="space-y-3">
             <div className="flex gap-3">
               <div className="flex-1">
@@ -119,7 +119,7 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
                   value={newMemberEmail}
                   onChange={(e) => setNewMemberEmail(e.target.value)}
                   placeholder="Enter email address"
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                  className="block w-full px-3 py-2 border border-input bg-background rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors"
                   required
                 />
               </div>
@@ -127,7 +127,7 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
                 <select
                   value={newMemberRole}
                   onChange={(e) => setNewMemberRole(e.target.value as 'owner' | 'admin' | 'member')}
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                  className="block w-full px-3 py-2 border border-input bg-background rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors"
                 >
                   <option value="member">Member</option>
                   <option value="admin">Admin</option>
@@ -138,7 +138,7 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
                 <button
                   type="submit"
                   disabled={isAddingMember}
-                  className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
+                  className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-colors"
                 >
                   {isAddingMember ? 'Adding...' : 'Add'}
                 </button>
@@ -149,7 +149,7 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
                     setNewMemberEmail('');
                     setNewMemberRole('member');
                   }}
-                  className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  className="px-4 py-2 border border-input bg-background text-foreground shadow-sm text-sm font-medium rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
                 >
                   Cancel
                 </button>
@@ -160,55 +160,55 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
       )}
 
       {/* Members List */}
-      <div className="bg-white shadow rounded-lg overflow-hidden">
+      <div className="bg-background border border-border rounded-lg overflow-hidden">
         {members.length === 0 ? (
           <div className="text-center py-12">
-            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="mx-auto h-12 w-12 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No members</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <h3 className="mt-2 text-sm font-medium text-foreground">No members</h3>
+            <p className="mt-1 text-sm text-muted-foreground">
               {canManageMembers ? 'Add team members to collaborate on this workspace.' : 'No members have been added to this workspace yet.'}
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-muted/50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Member
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Role
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Joined
                   </th>
                   {canManageMembers && (
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       Actions
                     </th>
                   )}
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="background divide-y divide-border">
                 {members.map((member) => (
                   <tr key={member.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
-                            <span className="text-sm font-medium text-white">
+                            <span className="text-sm font-medium text-primary-foreground">
                               {member.full_name.charAt(0).toUpperCase()}
                             </span>
                           </div>
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-foreground">
                             {member.full_name}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-muted-foreground">
                             {member.email}
                           </div>
                         </div>
@@ -219,7 +219,7 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
                         <select
                           value={member.role}
                           onChange={(e) => handleUpdateRole(member.user_id, e.target.value as 'owner' | 'admin' | 'member')}
-                          className="text-sm border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                          className="text-sm border border-input bg-background rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                         >
                           <option value="member">Member</option>
                           <option value="admin">Admin</option>
@@ -243,7 +243,7 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
                         {member.role !== 'owner' && (
                           <button
                             onClick={() => handleRemoveMember(member.user_id)}
-                            className="text-red-600 hover:text-red-900"
+                            className="text-destructive hover:text-destructive/80 transition-colors"
                           >
                             Remove
                           </button>
@@ -259,9 +259,9 @@ export function WorkspaceMembers({ workspace, members, canManageMembers }: Works
       </div>
 
       {/* Role Descriptions */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 className="text-sm font-medium text-blue-900 mb-2">Workspace Roles</h4>
-        <div className="space-y-2 text-sm text-blue-700">
+      <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+        <h4 className="text-sm font-medium text-foreground mb-2">Workspace Roles</h4>
+        <div className="space-y-2 text-sm text-primary/80">
           <div className="flex items-start gap-2">
             <span className="font-medium">Owner:</span>
             <span>Full control over workspace, including deletion and member management</span>

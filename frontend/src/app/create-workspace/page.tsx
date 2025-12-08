@@ -52,7 +52,7 @@ export default function CreateWorkspacePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
         {/* Animated background particles */}
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(10)].map((_, i) => (
@@ -88,7 +88,7 @@ export default function CreateWorkspacePage() {
           >
             <div className="flex justify-center mb-4">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-full blur-xl opacity-50" />
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full blur-xl opacity-50" />
                 <Building className="w-12 h-12 text-white relative z-10" />
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function CreateWorkspacePage() {
                         type="text"
                         value={workspaceData.name}
                         onChange={(e) => setWorkspaceData({ ...workspaceData, name: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                         placeholder="e.g., Marketing Team"
                         required
                       />
@@ -127,7 +127,7 @@ export default function CreateWorkspacePage() {
                       <textarea
                         value={workspaceData.description}
                         onChange={(e) => setWorkspaceData({ ...workspaceData, description: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 resize-none"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300 resize-none"
                         placeholder="Describe the purpose of this workspace..."
                         rows={3}
                       />
@@ -145,7 +145,7 @@ export default function CreateWorkspacePage() {
                             value="private"
                             checked={workspaceData.visibility === 'private'}
                             onChange={(e) => setWorkspaceData({ ...workspaceData, visibility: e.target.value as 'private' | 'public' })}
-                            className="w-4 h-4 text-green-600 bg-white/10 border-white/20 focus:ring-green-500"
+                            className="w-4 h-4 text-yellow-600 bg-white/10 border-white/20 focus:ring-yellow-400"
                           />
                           <div>
                             <span className="text-white font-medium">Private</span>
@@ -159,7 +159,7 @@ export default function CreateWorkspacePage() {
                             value="public"
                             checked={workspaceData.visibility === 'public'}
                             onChange={(e) => setWorkspaceData({ ...workspaceData, visibility: e.target.value as 'private' | 'public' })}
-                            className="w-4 h-4 text-green-600 bg-white/10 border-white/20 focus:ring-green-500"
+                            className="w-4 h-4 text-yellow-600 bg-white/10 border-white/20 focus:ring-yellow-400"
                           />
                           <div>
                             <span className="text-white font-medium">Public</span>
@@ -176,7 +176,7 @@ export default function CreateWorkspacePage() {
                       <select
                         value={workspaceData.memberLimit}
                         onChange={(e) => setWorkspaceData({ ...workspaceData, memberLimit: parseInt(e.target.value) })}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                       >
                         <option value={5}>5 members</option>
                         <option value={10}>10 members</option>
@@ -191,7 +191,7 @@ export default function CreateWorkspacePage() {
                       whileTap={{ scale: 0.98 }}
                       type="submit"
                       disabled={isCreating || !workspaceData.name.trim()}
-                      className="w-full bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                      className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-black font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                     >
                       {isCreating ? (
                         <div className="flex items-center">
@@ -226,7 +226,7 @@ export default function CreateWorkspacePage() {
                       transition={{ delay: 0.1 * index }}
                       className="flex items-start space-x-4 p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl"
                     >
-                      <div className="p-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg">
+                      <div className="p-2 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-lg">
                         <feature.icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -242,7 +242,7 @@ export default function CreateWorkspacePage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 }}
-                  className="mt-8 p-6 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-xl"
+                  className="mt-8 p-6 bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border border-yellow-500/30 rounded-xl"
                 >
                   <h4 className="text-white font-medium mb-2">Pro Tips</h4>
                   <ul className="space-y-2 text-white/70 text-sm">

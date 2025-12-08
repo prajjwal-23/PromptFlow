@@ -159,10 +159,10 @@ export function ProfileForm() {
             required
             value={formData.full_name}
             onChange={handleChange}
-            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${
+            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm ${
               formErrors.full_name
                 ? 'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:ring-primary'
+                : 'border-gray-300 focus:ring-yellow-400'
             }`}
             placeholder="Enter your full name"
           />
@@ -185,10 +185,10 @@ export function ProfileForm() {
             required
             value={formData.email}
             onChange={handleChange}
-            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${
+            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm ${
               formErrors.email
                 ? 'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:ring-primary'
+                : 'border-gray-300 focus:ring-yellow-400'
             }`}
             placeholder="Enter your email"
           />
@@ -205,7 +205,7 @@ export function ProfileForm() {
         <div className="bg-gray-50 rounded-lg p-4 space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">Account Status:</span>
-            <span className={`font-medium ${user.is_active ? 'text-green-600' : 'text-red-600'}`}>
+            <span className={`font-medium ${user.is_active ? 'text-yellow-600' : 'text-red-600'}`}>
               {user.is_active ? 'Active' : 'Inactive'}
             </span>
           </div>
@@ -228,7 +228,7 @@ export function ProfileForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="flex-1 justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 justify-center rounded-md border border-transparent bg-yellow-400 px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <div className="flex items-center justify-center gap-2">

@@ -172,7 +172,7 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
     onNodeDragStop,
     nodeTypes,
     deleteKeyCode: ['Backspace', 'Delete'],
-    connectionLineStyle: { stroke: '#3b82f6', strokeWidth: 2 },
+    connectionLineStyle: { stroke: 'hsl(var(--primary))', strokeWidth: 2 },
     snapToGrid: true,
     snapGrid: [20, 20] as [number, number],
     defaultViewport: { x: 0, y: 0, zoom: 1 },
@@ -196,7 +196,7 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
     <div className="h-full w-full flex">
       {/* Node Palette */}
       {!readOnly && (
-        <div className="w-64 bg-white border-r border-gray-200 flex-shrink-0">
+        <div className="w-64 bg-background border-r border-border flex-shrink-0">
           <NodePalette onAddNode={handleAddNode} />
         </div>
       )}
@@ -209,14 +209,14 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
           <MiniMap 
             position="top-right"
             nodeColor={(node) => {
-              if (!node || !node.type) return '#6b7280';
+              if (!node || !node.type) return 'hsl(var(--muted-foreground))';
               switch (node.type) {
-                case 'input': return '#10b981';
-                case 'llm': return '#3b82f6';
-                case 'retrieval': return '#8b5cf6';
-                case 'output': return '#f59e0b';
-                case 'tool': return '#ef4444';
-                default: return '#6b7280';
+                case 'input': return 'hsl(var(--success))';
+                case 'llm': return 'hsl(var(--primary))';
+                case 'retrieval': return 'hsl(var(--accent))';
+                case 'output': return 'hsl(var(--primary))';
+                case 'tool': return 'hsl(var(--destructive))';
+                default: return 'hsl(var(--muted-foreground))';
               }
             }}
             maskColor="rgba(0, 0, 0, 0.1)"
@@ -235,7 +235,7 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="text-center">
               <svg
-                className="mx-auto h-12 w-12 text-gray-400"
+                className="mx-auto h-12 w-12 text-muted-foreground"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -247,8 +247,8 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
                   d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
-              <h3 className="mt-2 text-sm font-medium text-gray-900">Start building your workflow</h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <h3 className="mt-2 text-sm font-medium text-foreground">Start building your workflow</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
                 Drag nodes from the palette to begin creating your agent
               </p>
             </div>
@@ -258,7 +258,7 @@ export function AgentCanvas({ agentId, readOnly = false }: AgentCanvasProps) {
 
       {/* Node Properties Panel */}
       {!readOnly && showProperties && selectedNode && selectedNode.id && (
-        <div className="w-80 bg-white border-l border-gray-200 flex-shrink-0">
+        <div className="w-80 bg-background border-l border-border flex-shrink-0">
           <NodeProperties
             node={selectedNode}
             onClose={() => setShowProperties(false)}

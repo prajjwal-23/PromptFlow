@@ -115,7 +115,7 @@ export function HeroSection() {
                                     </Link>
                          
                                     <h1
-                                        className="mt-8 max-w-4xl mx-auto text-balance text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem] bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                                        className="mt-8 max-w-4xl mx-auto text-balance text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem] bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
                                         Build AI Agents That Think
                                     </h1>
                                     <p
@@ -139,7 +139,7 @@ export function HeroSection() {
                                     className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row">
                                     <div
                                         key={1}
-                                        className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-[14px] border p-0.5">
+                                        className="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-[14px] border p-0.5">
                                         <Button
                                             size="lg"
                                             onClick={handleStartBuilding}

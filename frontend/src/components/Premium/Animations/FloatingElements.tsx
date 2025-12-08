@@ -99,15 +99,15 @@ export function FloatingElements({
             animate="animate"
             className="relative"
           >
-            <div className="text-white/60" style={{
-              filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))',
+            <div className="text-primary/60" style={{
+              filter: 'drop-shadow(0 0 10px hsl(var(--primary) / 0.3))',
               fontSize: `${element.size}px`
             }}>
               <element.icon className="w-full h-full" />
             </div>
             {/* Glow effect */}
             <div 
-              className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-30"
+              className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-full blur-xl opacity-30"
               style={{
                 width: element.size * 2,
                 height: element.size * 2,

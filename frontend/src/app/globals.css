@@ -1,63 +1,106 @@
 @import "tailwindcss";
 
 :root {
+  /* Brand Colors: Black, Gray, Yellow */
   --background: #ffffff;
-  --foreground: #171717;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --muted: #f3f4f6;
-  --accent: #f3f4f6;
-  --border: #e5e7eb;
-  --ring: #3b82f6;
-  --destructive: #ef4444;
-  --secondary: #f3f4f6;
+  --foreground: #000000;
+  --primary: #fbbf24; /* Yellow-400 */
+  --primary-hover: #f59e0b; /* Yellow-500 */
+  --primary-foreground: #000000;
+  --muted: #f3f4f6; /* Gray-100 */
+  --accent: #fbbf24; /* Yellow-400 */
+  --accent-foreground: #000000;
+  --border: #e5e7eb; /* Gray-200 */
+  --ring: #fbbf24; /* Yellow-400 */
+  --destructive: #ef4444; /* Red-500 */
+  --destructive-foreground: #ffffff;
+  --secondary: #9ca3af; /* Gray-400 */
+  --secondary-foreground: #000000;
   --card: #ffffff;
+  --card-foreground: #000000;
   --popover: #ffffff;
+  --popover-foreground: #000000;
   --input: #ffffff;
-  --text-foreground: #171717;
-  --text-muted-foreground: #6b7280;
-  --text-accent-foreground: #171717;
-  --text-primary-foreground: #ffffff;
-  --text-destructive-foreground: #ffffff;
-  --text-secondary-foreground: #171717;
+  --input-foreground: #000000;
+  
+  /* Text Colors */
+  --text-foreground: #000000;
+  --text-muted-foreground: #6b7280; /* Gray-500 */
+  --text-accent-foreground: #000000;
+  --text-primary-foreground: #000000;
+  --text-secondary-foreground: #000000;
+  
+  /* Additional Brand Variants */
+  --brand-black: #000000;
+  --brand-gray-light: #f3f4f6; /* Gray-100 */
+  --brand-gray-medium: #9ca3af; /* Gray-400 */
+  --brand-gray-dark: #374151; /* Gray-700 */
+  --brand-yellow: #fbbf24; /* Yellow-400 */
+  --brand-yellow-dark: #f59e0b; /* Yellow-500 */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-input: var(--input);
+  --color-input-foreground: var(--input-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --muted: #1f2937;
-    --accent: #1f2937;
-    --border: #374151;
-    --ring: #3b82f6;
-    --destructive: #dc2626;
-    --secondary: #1f2937;
-    --card: #0a0a0a;
-    --popover: #0a0a0a;
-    --input: #1f2937;
-    --text-foreground: #ededed;
-    --text-muted-foreground: #9ca3af;
-    --text-accent-foreground: #ededed;
-    --text-primary-foreground: #0a0a0a;
-    --text-destructive-foreground: #ededed;
-    --text-secondary-foreground: #ededed;
+    /* Dark mode with brand colors */
+    --background: #000000;
+    --foreground: #ffffff;
+    --primary: #fbbf24; /* Yellow-400 */
+    --primary-hover: #f59e0b; /* Yellow-500 */
+    --primary-foreground: #000000;
+    --muted: #374151; /* Gray-700 */
+    --accent: #fbbf24; /* Yellow-400 */
+    --accent-foreground: #000000;
+    --border: #4b5563; /* Gray-600 */
+    --ring: #fbbf24; /* Yellow-400 */
+    --destructive: #ef4444; /* Red-500 */
+    --destructive-foreground: #ffffff;
+    --secondary: #6b7280; /* Gray-500 */
+    --secondary-foreground: #ffffff;
+    --card: #000000;
+    --card-foreground: #ffffff;
+    --popover: #000000;
+    --popover-foreground: #ffffff;
+    --input: #374151; /* Gray-700 */
+    --input-foreground: #ffffff;
+    
+    /* Text Colors */
+    --text-foreground: #ffffff;
+    --text-muted-foreground: #9ca3af; /* Gray-400 */
+    --text-accent-foreground: #000000;
+    --text-primary-foreground: #000000;
+    --text-secondary-foreground: #ffffff;
+    
+    /* Additional Brand Variants */
+    --brand-black: #ffffff;
+    --brand-gray-light: #374151; /* Gray-700 */
+    --brand-gray-medium: #6b7280; /* Gray-500 */
+    --brand-gray-dark: #d1d5db; /* Gray-300 */
+    --brand-yellow: #fbbf24; /* Yellow-400 */
+    --brand-yellow-dark: #f59e0b; /* Yellow-500 */
   }
 }
 

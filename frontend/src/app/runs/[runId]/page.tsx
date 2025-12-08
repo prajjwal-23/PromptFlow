@@ -66,7 +66,7 @@ export default function RunDetailPage() {
   const getStatusColor = (status: string): string => {
     switch (status) {
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-yellow-100 text-yellow-800';
       case 'failed':
         return 'bg-red-100 text-red-800';
       case 'running':
@@ -117,7 +117,7 @@ export default function RunDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400 mx-auto mb-4"></div>
           <div className="text-lg font-medium text-gray-900">Loading execution...</div>
         </div>
       </div>
@@ -132,7 +132,7 @@ export default function RunDetailPage() {
           <p className="text-gray-600 mb-4">The execution you're looking for doesn't exist or you don't have access to it.</p>
           <Link
             href="/runs"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
           >
             Back to Executions
           </Link>
@@ -171,7 +171,7 @@ export default function RunDetailPage() {
               </button>
               <Link
                 href={`/execute/${currentExecution?.agent_id}`}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
               >
                 Run Again
               </Link>
@@ -306,13 +306,13 @@ export default function RunDetailPage() {
                       onClick={() => setActiveTab(tab.id as any)}
                       className={`${
                         activeTab === tab.id
-                          ? 'border-indigo-500 text-indigo-600'
+                          ? 'border-yellow-500 text-yellow-600'
                           : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                       } group inline-flex items-center py-4 px-6 border-b-2 font-medium text-sm`}
                     >
                       <Icon
                         className={`${
-                          activeTab === tab.id ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500'
+                          activeTab === tab.id ? 'text-yellow-500' : 'text-gray-400 group-hover:text-gray-500'
                         } mr-2 h-5 w-5`}
                         aria-hidden="true"
                       />

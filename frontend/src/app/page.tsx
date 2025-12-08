@@ -46,28 +46,28 @@ export default function HomePage() {
       icon: Brain,
       title: "AI-Powered Intelligence",
       description: "Build agents that learn, adapt, and make intelligent decisions using cutting-edge AI models.",
-      color: "from-blue-500 to-cyan-500",
+      color: "from-yellow-400 to-yellow-500",
       stats: "10K+ agents deployed"
     },
     {
       icon: Workflow,
       title: "Visual Workflow Builder",
       description: "Create complex automation workflows with our intuitive drag-and-drop interface. No coding required.",
-      color: "from-purple-500 to-pink-500",
+      color: "from-gray-600 to-gray-700",
       stats: "50K+ workflows created"
     },
     {
       icon: Zap,
       title: "Real-time Execution",
       description: "Watch your agents execute in real-time with live streaming, monitoring, and instant feedback.",
-      color: "from-green-500 to-emerald-500",
+      color: "from-yellow-500 to-yellow-600",
       stats: "1M+ executions completed"
     },
     {
       icon: Sparkles,
       title: "Premium Experience",
       description: "Enjoy a premium, polished interface with smooth animations, glass effects, and modern design.",
-      color: "from-orange-500 to-red-500",
+      color: "from-gray-700 to-black",
       stats: "99.9% uptime"
     }
   ];
@@ -78,7 +78,7 @@ export default function HomePage() {
       <HeroSection />
       
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+      <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-yellow-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <motion.h2
@@ -86,7 +86,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+              className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent"
             >
               Why Choose PromptFlow?
             </motion.h2>
@@ -111,7 +111,7 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 className="group relative"
               >
-                <div className="relative p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-800">
+                <div className="relative p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-yellow-200 dark:hover:border-yellow-800">
                   {/* Background gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`} />
                   
@@ -129,7 +129,7 @@ export default function HomePage() {
                   </p>
                   
                   {/* Stats */}
-                  <div className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
+                  <div className="flex items-center text-sm font-medium text-yellow-600 dark:text-yellow-400">
                     <span>{feature.stats}</span>
                     <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
@@ -141,7 +141,7 @@ export default function HomePage() {
       </section>
 
       {/* Quick Start Section */}
-      <section className="py-20 bg-white dark:bg-gray-800">
+      <section className="py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -163,7 +163,7 @@ export default function HomePage() {
                   { step: "3", title: "Customize & Deploy", description: "Tailor your agent and deploy instantly" }
                 ].map((item, index) => (
                   <div key={index} className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                    <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-black font-semibold text-sm">
                       {item.step}
                     </div>
                     <div>
@@ -177,7 +177,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleStartBuilding}
-                className="mt-8 inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                className="mt-8 inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Get Started Now
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -191,12 +191,12 @@ export default function HomePage() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-2xl p-8 shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl"></div>
+              <div className="relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-black rounded-2xl p-8 shadow-xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-yellow-500/20 rounded-2xl"></div>
                 <div className="relative z-10">
                   <div className="aspect-video bg-white dark:bg-gray-900 rounded-lg shadow-inner flex items-center justify-center">
                     <div className="text-center">
-                      <Brain className="w-16 h-16 text-blue-600 dark:text-blue-400 mx-auto mb-4" />
+                      <Brain className="w-16 h-16 text-yellow-600 dark:text-yellow-400 mx-auto mb-4" />
                       <p className="text-gray-600 dark:text-gray-300">Interactive Agent Builder Preview</p>
                     </div>
                   </div>
@@ -208,7 +208,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-yellow-400 to-yellow-500 relative overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div
@@ -250,7 +250,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleStartBuilding}
-                className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                className="inline-flex items-center px-8 py-4 bg-black text-yellow-400 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Start Building Free
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -260,7 +260,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleWatchDemo}
-                className="inline-flex items-center px-8 py-4 bg-white/20 backdrop-blur-md border border-white/30 text-white font-semibold rounded-xl hover:bg-white/30 transition-all duration-300"
+                className="inline-flex items-center px-8 py-4 bg-black/20 backdrop-blur-md border border-black/30 text-yellow-400 font-semibold rounded-xl hover:bg-black/30 transition-all duration-300"
               >
                 View Demo
                 <Play className="w-5 h-5 ml-2" />
@@ -271,7 +271,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 bg-gray-50 dark:bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -290,7 +290,7 @@ export default function HomePage() {
               >
                 <div className="flex flex-col items-center space-y-2">
                   <div className="p-3 bg-white dark:bg-gray-800 rounded-xl shadow-md group-hover:shadow-lg transition-all duration-300">
-                    <stat.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    <stat.icon className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
                   </div>
                   <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">{stat.label}</div>

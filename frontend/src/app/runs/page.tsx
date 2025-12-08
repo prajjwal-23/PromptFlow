@@ -92,7 +92,7 @@ export default function RunsPage() {
   const getStatusColor = (status: string): string => {
     switch (status) {
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-yellow-100 text-yellow-800';
       case 'failed':
         return 'bg-red-100 text-red-800';
       case 'running':
@@ -211,7 +211,7 @@ export default function RunsPage() {
                 placeholder="Search executions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm"
               />
             </div>
 
@@ -219,7 +219,7 @@ export default function RunsPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm"
             >
               <option value="all">All Status</option>
               <option value="completed">Completed</option>
@@ -233,7 +233,7 @@ export default function RunsPage() {
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm"
             >
               <option value="all">All Time</option>
               <option value="today">Today</option>
@@ -245,7 +245,7 @@ export default function RunsPage() {
             <select
               value={selectedAgent}
               onChange={(e) => setSelectedAgent(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm"
             >
               <option value="all">All Agents</option>
               {getUniqueAgents().map(agentId => (
@@ -258,7 +258,7 @@ export default function RunsPage() {
         {/* Executions List */}
         {isLoading ? (
           <div className="bg-white rounded-lg shadow p-8 text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400 mx-auto mb-4"></div>
             <div className="text-lg font-medium text-gray-900">Loading executions...</div>
           </div>
         ) : filteredExecutions.length === 0 ? (
@@ -277,7 +277,7 @@ export default function RunsPage() {
             </div>
             <Link
               href="/agents"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
             >
               Go to Agents
             </Link>
@@ -343,13 +343,13 @@ export default function RunsPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <Link
                         href={`/runs/${execution.id}`}
-                        className="text-indigo-600 hover:text-indigo-900 mr-3"
+                        className="text-yellow-600 hover:text-yellow-900 mr-3"
                       >
                         View
                       </Link>
                       <Link
                         href={`/execute/${execution.agent_id}`}
-                        className="text-green-600 hover:text-green-900"
+                        className="text-gray-600 hover:text-gray-900"
                       >
                         Run Again
                       </Link>

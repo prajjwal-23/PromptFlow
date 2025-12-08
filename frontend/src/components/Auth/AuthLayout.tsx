@@ -23,13 +23,13 @@ export function AuthLayout({
   footerLink,
 }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
+    <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-100">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         {/* Logo */}
         <div className="flex justify-center">
-          <div className="h-12 w-12 flex items-center justify-center rounded-lg bg-primary">
+          <div className="h-12 w-12 flex items-center justify-center rounded-lg bg-yellow-400">
             <svg
-              className="h-8 w-8 text-primary-foreground"
+              className="h-8 w-8 text-black"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -48,7 +48,7 @@ export function AuthLayout({
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900">{title}</h2>
+            <h2 className="text-3xl font-bold text-black">{title}</h2>
             {subtitle && (
               <p className="mt-2 text-sm text-gray-600">{subtitle}</p>
             )}
@@ -75,7 +75,7 @@ export function AuthLayout({
                 <div className="mt-6 text-center">
                   <Link
                     href={footerLink.href}
-                    className="font-medium text-primary hover:text-primary/80"
+                    className="font-medium text-yellow-600 hover:text-yellow-500"
                   >
                     {footerLink.text}
                   </Link>

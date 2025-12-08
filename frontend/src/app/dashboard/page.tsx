@@ -99,9 +99,9 @@ export default function DashboardPage() {
   if (workspaceLoading || agentLoading) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400 mx-auto"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400 mx-auto"></div>
             <p className="mt-2 text-white/70">Loading premium dashboard...</p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
         {/* Three.js Background - Commented out for now due to TypeScript issues */}
         <ThreeScene />
         
@@ -119,7 +119,7 @@ export default function DashboardPage() {
         <div 
           className="absolute inset-0 z-10 opacity-20"
           style={{
-            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(79, 70, 229, 0.3) 0%, transparent 50%)`
+            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(250, 204, 21, 0.3) 0%, transparent 50%)`
           }}
         />
 
@@ -146,7 +146,7 @@ export default function DashboardPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleCreateWorkspace}
-                    className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     New Workspace
@@ -170,8 +170,8 @@ export default function DashboardPage() {
                       className="flex items-center p-2 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300"
                       onClick={() => setShowProfileDropdown(!showProfileDropdown)}
                     >
-                      <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
-                        <span className="text-sm font-medium text-white">
+                      <div className="h-8 w-8 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 flex items-center justify-center">
+                        <span className="text-sm font-medium text-black">
                           {user?.full_name?.charAt(0).toUpperCase()}
                         </span>
                       </div>
@@ -250,19 +250,19 @@ export default function DashboardPage() {
                     onClick={() => setActiveTab(tab.key as any)}
                     className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 transition-all duration-300 ${
                       activeTab === tab.key
-                        ? 'border-blue-400 text-white'
+                        ? 'border-yellow-400 text-white'
                         : 'border-transparent text-white/60 hover:text-white hover:border-white/30'
                     }`}
                   >
                     <tab.icon className="w-4 h-4" />
                     <span>{tab.label}</span>
                     {tab.key === 'workspaces' && (
-                      <span className="ml-1 px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded-full text-xs">
+                      <span className="ml-1 px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">
                         {workspaces.length}
                       </span>
                     )}
                     {tab.key === 'agents' && (
-                      <span className="ml-1 px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full text-xs">
+                      <span className="ml-1 px-2 py-0.5 bg-gray-500/20 text-gray-400 rounded-full text-xs">
                         {agents.length}
                       </span>
                     )}
@@ -285,10 +285,10 @@ export default function DashboardPage() {
               {/* Premium Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {[
-                  { icon: FolderOpen, value: workspaces.length, label: 'Total Workspaces', color: 'from-blue-500 to-cyan-500', bgColor: 'bg-blue-500/10' },
-                  { icon: Bot, value: agents.length, label: 'Total Agents', color: 'from-green-500 to-emerald-500', bgColor: 'bg-green-500/10' },
-                  { icon: Zap, value: agents.filter(a => a.is_active).length, label: 'Active Workflows', color: 'from-purple-500 to-pink-500', bgColor: 'bg-purple-500/10' },
-                  { icon: Users, value: workspaces.reduce((total, ws) => total + ws.member_count, 0), label: 'Team Members', color: 'from-orange-500 to-red-500', bgColor: 'bg-orange-500/10' }
+                  { icon: FolderOpen, value: workspaces.length, label: 'Total Workspaces', color: 'from-yellow-400 to-yellow-500', bgColor: 'bg-yellow-500/10' },
+                  { icon: Bot, value: agents.length, label: 'Total Agents', color: 'from-gray-600 to-gray-700', bgColor: 'bg-gray-500/10' },
+                  { icon: Zap, value: agents.filter(a => a.is_active).length, label: 'Active Workflows', color: 'from-yellow-500 to-yellow-600', bgColor: 'bg-yellow-500/10' },
+                  { icon: Users, value: workspaces.reduce((total, ws) => total + ws.member_count, 0), label: 'Team Members', color: 'from-gray-700 to-black', bgColor: 'bg-gray-700/10' }
                 ].map((stat, index) => (
                   <motion.div
                     key={stat.label}
@@ -296,7 +296,7 @@ export default function DashboardPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 * index }}
                     whileHover={{ scale: 1.02, y: -2 }}
-                    className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl hover:shadow-blue-500/10 transition-all duration-300"
+                    className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl hover:shadow-yellow-500/10 transition-all duration-300"
                   >
                     <div className="flex items-center">
                       <div className={`p-3 ${stat.bgColor} rounded-xl bg-gradient-to-br ${stat.color}`}>
@@ -319,7 +319,7 @@ export default function DashboardPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setActiveTab('workspaces')}
-                    className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    className="text-sm text-yellow-400 hover:text-yellow-300 transition-colors"
                   >
                     View all →
                   </motion.button>
@@ -338,7 +338,7 @@ export default function DashboardPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={handleCreateWorkspace}
-                      className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+                      className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-medium rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300"
                     >
                       Create Workspace
                     </motion.button>
@@ -371,7 +371,7 @@ export default function DashboardPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setActiveTab('agents')}
-                    className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    className="text-sm text-yellow-400 hover:text-yellow-300 transition-colors"
                   >
                     View all →
                   </motion.button>
@@ -390,7 +390,7 @@ export default function DashboardPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={handleCreateAgent}
-                      className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300"
+                      className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-medium rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-300"
                     >
                       Create Agent
                     </motion.button>
@@ -429,7 +429,7 @@ export default function DashboardPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleCreateWorkspace}
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Create Workspace
@@ -449,7 +449,7 @@ export default function DashboardPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleCreateWorkspace}
-                    className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+                    className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-medium rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300"
                   >
                     Create Workspace
                   </motion.button>
@@ -487,7 +487,7 @@ export default function DashboardPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleCreateAgent}
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Create Agent
@@ -507,7 +507,7 @@ export default function DashboardPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleCreateAgent}
-                    className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300"
+                    className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-medium rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-300"
                   >
                     Create Agent
                   </motion.button>

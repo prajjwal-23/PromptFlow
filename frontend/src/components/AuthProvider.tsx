@@ -36,10 +36,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Show loading state during initialization
   if (!isInitialized || loadingStatus) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-800">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
-          <p className="text-white text-lg">Initializing Authentication...</p>
+          <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p className="text-yellow-400 text-lg">Initializing Authentication...</p>
         </div>
       </div>
     );

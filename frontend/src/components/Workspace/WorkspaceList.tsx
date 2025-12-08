@@ -73,7 +73,7 @@ export function WorkspaceList({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
       </div>
     );
   }
@@ -81,7 +81,7 @@ export function WorkspaceList({
   return (
     <div className="space-y-6">
       {/* Search and Filters */}
-      <div className="bg-white shadow rounded-lg p-6">
+      <div className="bg-background border border-border rounded-lg p-6 shadow-sm">
         <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
           {/* Search */}
           <div className="flex-1">
@@ -91,7 +91,7 @@ export function WorkspaceList({
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg
-                  className="h-5 w-5 text-gray-400"
+                  className="h-5 w-5 text-muted-foreground"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -109,7 +109,7 @@ export function WorkspaceList({
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-input rounded-md leading-5 bg-background placeholder-muted-foreground focus:outline-none focus:placeholder-muted-foreground focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors"
                 placeholder="Search workspaces..."
               />
             </div>
@@ -117,14 +117,14 @@ export function WorkspaceList({
 
           {/* Sort Controls */}
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-500">Sort by:</span>
+            <span className="text-sm text-muted-foreground">Sort by:</span>
             <div className="flex rounded-md shadow-sm">
               <button
                 onClick={() => handleSort('name')}
-                className={`relative inline-flex items-center px-3 py-2 rounded-l-md border text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary ${
+                className={`relative inline-flex items-center px-3 py-2 rounded-l-md border text-sm font-medium focus:z-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
                   sortBy === 'name'
-                    ? 'bg-primary text-white border-primary'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-background text-foreground border-border hover:bg-muted'
                 }`}
               >
                 Name
@@ -136,10 +136,10 @@ export function WorkspaceList({
               </button>
               <button
                 onClick={() => handleSort('created_at')}
-                className={`relative -ml-px inline-flex items-center px-3 py-2 border text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary ${
+                className={`relative -ml-px inline-flex items-center px-3 py-2 border text-sm font-medium focus:z-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
                   sortBy === 'created_at'
-                    ? 'bg-primary text-white border-primary'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-background text-foreground border-border hover:bg-muted'
                 }`}
               >
                 Created
@@ -151,10 +151,10 @@ export function WorkspaceList({
               </button>
               <button
                 onClick={() => handleSort('updated_at')}
-                className={`relative -ml-px inline-flex items-center px-3 py-2 rounded-r-md border text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary ${
+                className={`relative -ml-px inline-flex items-center px-3 py-2 rounded-r-md border text-sm font-medium focus:z-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
                   sortBy === 'updated_at'
-                    ? 'bg-primary text-white border-primary'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-background text-foreground border-border hover:bg-muted'
                 }`}
               >
                 Updated
@@ -171,7 +171,7 @@ export function WorkspaceList({
 
       {/* Results Count */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-muted-foreground">
           Showing {filteredAndSortedWorkspaces.length} of {workspaces.length} workspaces
         </p>
       </div>
@@ -180,7 +180,7 @@ export function WorkspaceList({
       {filteredAndSortedWorkspaces.length === 0 ? (
         <div className="text-center py-12">
           <svg
-            className="mx-auto h-12 w-12 text-gray-400"
+            className="mx-auto h-12 w-12 text-muted-foreground"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -192,10 +192,10 @@ export function WorkspaceList({
               d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
             />
           </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
+          <h3 className="mt-2 text-sm font-medium text-foreground">
             {searchTerm ? 'No matching workspaces' : 'No workspaces'}
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             {searchTerm 
               ? 'Try adjusting your search terms'
               : 'Get started by creating your first workspace.'

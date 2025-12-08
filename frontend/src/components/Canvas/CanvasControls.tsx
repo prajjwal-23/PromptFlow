@@ -74,13 +74,13 @@ export function CanvasControls({ onSave, agentId }: CanvasControlsProps) {
   }, [nodes, edges, agentId]);
 
   return (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-2 flex items-center space-x-2">
+    <div className="bg-background border border-border rounded-lg shadow-lg p-2 flex items-center space-x-2">
       {/* Undo/Redo */}
-      <div className="flex items-center space-x-1 border-r border-gray-200 pr-2">
+      <div className="flex items-center space-x-1 border-r border-border pr-2">
         <button
           onClick={handleUndo}
           disabled={!canUndo}
-          className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed rounded"
+          className="p-2 text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors"
           title="Undo (Ctrl+Z)"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +95,7 @@ export function CanvasControls({ onSave, agentId }: CanvasControlsProps) {
         <button
           onClick={handleRedo}
           disabled={!canRedo}
-          className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed rounded"
+          className="p-2 text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors"
           title="Redo (Ctrl+Y)"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,10 +110,10 @@ export function CanvasControls({ onSave, agentId }: CanvasControlsProps) {
       </div>
 
       {/* Canvas Operations */}
-      <div className="flex items-center space-x-1 border-r border-gray-200 pr-2">
+      <div className="flex items-center space-x-1 border-r border-border pr-2">
         <button
           onClick={handleClear}
-          className="p-2 text-gray-600 hover:text-gray-900 rounded"
+          className="p-2 text-muted-foreground hover:text-foreground rounded transition-colors"
           title="Clear Canvas"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,7 +127,7 @@ export function CanvasControls({ onSave, agentId }: CanvasControlsProps) {
         </button>
         <button
           onClick={handleExport}
-          className="p-2 text-gray-600 hover:text-gray-900 rounded"
+          className="p-2 text-muted-foreground hover:text-foreground rounded transition-colors"
           title="Export Workflow"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,7 +145,7 @@ export function CanvasControls({ onSave, agentId }: CanvasControlsProps) {
       <button
         onClick={handleSave}
         disabled={isSaving}
-        className="px-3 py-1.5 bg-primary text-white text-sm font-medium rounded hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-1"
+        className="px-3 py-1.5 bg-primary text-primary-foreground text-sm font-medium rounded hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-1 transition-colors"
         title="Save Workflow"
       >
         {isSaving ? (
@@ -184,20 +184,20 @@ export function CanvasControls({ onSave, agentId }: CanvasControlsProps) {
       </button>
 
       {/* Status */}
-      <div className="flex items-center space-x-2 text-sm text-gray-600 border-l border-gray-200 pl-2">
+      <div className="flex items-center space-x-2 text-sm text-muted-foreground border-l border-border pl-2">
         <div className="flex items-center space-x-1">
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+          <div className="w-2 h-2 bg-success rounded-full"></div>
           <span>{nodes.length} nodes</span>
         </div>
         <div className="flex items-center space-x-1">
-          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+          <div className="w-2 h-2 bg-primary rounded-full"></div>
           <span>{edges.length} connections</span>
         </div>
       </div>
 
       {/* Error Display */}
       {error && (
-        <div className="absolute top-full mt-2 left-0 right-0 bg-red-50 border border-red-200 rounded-lg p-3">
+        <div className="absolute top-full mt-2 left-0 right-0 bg-destructive/10 border border-destructive/20 rounded-lg p-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
@@ -207,11 +207,11 @@ export function CanvasControls({ onSave, agentId }: CanvasControlsProps) {
                   clipRule="evenodd"
                 />
               </svg>
-              <span className="text-sm text-red-800">{error}</span>
+              <span className="text-sm text-destructive">{error}</span>
             </div>
             <button
               onClick={clearError}
-              className="text-red-500 hover:text-red-700"
+              className="text-destructive hover:text-destructive/80 transition-colors"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path

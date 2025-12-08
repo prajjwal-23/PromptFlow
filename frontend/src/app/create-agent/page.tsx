@@ -96,7 +96,7 @@ export default function CreateAgentPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
         {/* Animated background particles */}
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(12)].map((_, i) => (
@@ -132,7 +132,7 @@ export default function CreateAgentPage() {
           >
             <div className="flex justify-center mb-4">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-50" />
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full blur-xl opacity-50" />
                 <Brain className="w-12 h-12 text-white relative z-10" />
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function CreateAgentPage() {
                     whileHover={{ scale: 1.05 }}
                     className={`flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300 ${
                       currentStep >= step.number
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 border-transparent text-white'
+                        ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 border-transparent text-black'
                         : 'bg-white/10 border-white/30 text-white/60'
                     }`}
                   >
@@ -167,7 +167,7 @@ export default function CreateAgentPage() {
                   {index < steps.length - 1 && (
                     <div className={`w-16 h-0.5 mx-2 ${
                       currentStep > step.number
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500'
+                        ? 'bg-gradient-to-r from-yellow-400 to-yellow-500'
                         : 'bg-white/20'
                     }`} />
                   )}
@@ -202,7 +202,7 @@ export default function CreateAgentPage() {
                       type="text"
                       value={agentData.name}
                       onChange={(e) => setAgentData({ ...agentData, name: e.target.value })}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                       placeholder="e.g., Customer Support Bot"
                       required
                     />
@@ -215,7 +215,7 @@ export default function CreateAgentPage() {
                     <textarea
                       value={agentData.description}
                       onChange={(e) => setAgentData({ ...agentData, description: e.target.value })}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300 resize-none"
                       placeholder="Describe what this agent does..."
                       rows={3}
                     />
@@ -227,7 +227,7 @@ export default function CreateAgentPage() {
                         type="checkbox"
                         checked={agentData.isActive}
                         onChange={(e) => setAgentData({ ...agentData, isActive: e.target.checked })}
-                        className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded focus:ring-blue-500"
+                        className="w-4 h-4 text-yellow-600 bg-white/10 border-white/20 rounded focus:ring-yellow-400"
                       />
                       <span className="text-white/80">Activate agent immediately</span>
                     </label>
@@ -252,7 +252,7 @@ export default function CreateAgentPage() {
                     <select
                       value={agentData.workspaceId}
                       onChange={(e) => setAgentData({ ...agentData, workspaceId: e.target.value })}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300"
                       required
                     >
                       {workspaces.map((workspace) => (
@@ -306,9 +306,9 @@ export default function CreateAgentPage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-xl p-6">
+                <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border border-yellow-500/30 rounded-xl p-6">
                   <div className="flex items-center space-x-3">
-                    <Zap className="w-6 h-6 text-blue-400" />
+                    <Zap className="w-6 h-6 text-yellow-400" />
                     <div>
                       <h3 className="text-white font-medium">Ready to create!</h3>
                       <p className="text-white/70 text-sm">Your AI agent will be created and ready for configuration.</p>
@@ -344,7 +344,7 @@ export default function CreateAgentPage() {
                   whileTap={{ scale: 0.95 }}
                   onClick={handleNext}
                   disabled={!isStepValid(currentStep)}
-                  className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black rounded-xl hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -355,7 +355,7 @@ export default function CreateAgentPage() {
                   whileTap={{ scale: 0.95 }}
                   onClick={handleCreate}
                   disabled={isCreating || !isStepValid(currentStep)}
-                  className="flex items-center px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center px-8 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isCreating ? (
                     <>

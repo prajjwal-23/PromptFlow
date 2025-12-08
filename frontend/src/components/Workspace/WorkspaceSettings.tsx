@@ -28,13 +28,13 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Workspace Settings</h3>
+        <h3 className="text-lg font-semibold text-foreground mb-4">Workspace Settings</h3>
         
         {/* Workspace Information */}
-        <div className="bg-white shadow rounded-lg">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h4 className="text-md font-medium text-gray-900">Workspace Information</h4>
-            <p className="mt-1 text-sm text-gray-500">
+        <div className="bg-background border border-border rounded-lg shadow-sm">
+          <div className="px-6 py-4 border-b border-border">
+            <h4 className="text-md font-medium text-foreground">Workspace Information</h4>
+            <p className="mt-1 text-sm text-muted-foreground">
               Basic information about this workspace
             </p>
           </div>
@@ -58,13 +58,13 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700">Created By</label>
-              <p className="mt-1 text-sm text-gray-900">{workspace.created_by}</p>
+              <label className="block text-sm font-medium text-foreground">Created By</label>
+              <p className="mt-1 text-sm text-foreground">{workspace.created_by}</p>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700">Created Date</label>
-              <p className="mt-1 text-sm text-gray-900">
+              <label className="block text-sm font-medium text-foreground">Created Date</label>
+              <p className="mt-1 text-sm text-foreground">
                 {new Date(workspace.created_at).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
@@ -76,8 +76,8 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700">Last Updated</label>
-              <p className="mt-1 text-sm text-gray-900">
+              <label className="block text-sm font-medium text-foreground">Last Updated</label>
+              <p className="mt-1 text-sm text-foreground">
                 {new Date(workspace.updated_at).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
@@ -91,18 +91,18 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
         </div>
 
         {/* Access Control */}
-        <div className="bg-white shadow rounded-lg mt-6">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h4 className="text-md font-medium text-gray-900">Access Control</h4>
-            <p className="mt-1 text-sm text-gray-500">
+        <div className="bg-background border border-border rounded-lg mt-6 shadow-sm">
+          <div className="px-6 py-4 border-b border-border">
+            <h4 className="text-md font-medium text-foreground">Access Control</h4>
+            <p className="mt-1 text-sm text-muted-foreground">
               Manage access permissions and security settings
             </p>
           </div>
           <div className="px-6 py-4 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h5 className="text-sm font-medium text-gray-900">Your Role</h5>
-                <p className="text-sm text-gray-500">
+                <h5 className="text-sm font-medium text-foreground">Your Role</h5>
+                <p className="text-sm text-muted-foreground">
                   {workspace.role === 'owner' && 'You have full control over this workspace'}
                   {workspace.role === 'admin' && 'You can manage members and settings'}
                   {workspace.role === 'member' && 'You can view and create agents'}
@@ -111,10 +111,10 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
               <span
                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                   workspace.role === 'owner'
-                    ? 'bg-purple-100 text-purple-800'
+                    ? 'bg-primary/10 text-primary'
                     : workspace.role === 'admin'
-                    ? 'bg-blue-100 text-blue-800'
-                    : 'bg-gray-100 text-gray-800'
+                    ? 'bg-accent/10 text-accent'
+                    : 'bg-muted text-muted-foreground'
                 }`}
               >
                 {workspace.role}
@@ -126,11 +126,11 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <svg className={`w-4 h-4 ${
-                    workspace.role === 'owner' || workspace.role === 'admin' ? 'text-green-500' : 'text-gray-300'
+                    workspace.role === 'owner' || workspace.role === 'admin' ? 'text-success' : 'text-muted-foreground'
                   }`} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-sm text-gray-700">View workspace</span>
+                  <span className="text-sm text-foreground">View workspace</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg className={`w-4 h-4 ${
@@ -138,7 +138,7 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
                   }`} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-sm text-gray-700">Create and edit agents</span>
+                  <span className="text-sm text-foreground">Create and edit agents</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg className={`w-4 h-4 ${
@@ -146,7 +146,7 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
                   }`} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-sm text-gray-700">Manage members</span>
+                  <span className="text-sm text-foreground">Manage members</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg className={`w-4 h-4 ${
@@ -154,7 +154,7 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
                   }`} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-sm text-gray-700">Delete workspace</span>
+                  <span className="text-sm text-foreground">Delete workspace</span>
                 </div>
               </div>
             </div>
@@ -163,24 +163,24 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
 
         {/* Danger Zone */}
         {canDelete && (
-          <div className="bg-white shadow rounded-lg mt-6 border border-red-200">
-            <div className="px-6 py-4 border-b border-red-200 bg-red-50">
-              <h4 className="text-md font-medium text-red-900">Danger Zone</h4>
-              <p className="mt-1 text-sm text-red-700">
+          <div className="bg-background border border-destructive/20 rounded-lg mt-6 shadow-sm">
+            <div className="px-6 py-4 border-b border-destructive/20 bg-destructive/10">
+              <h4 className="text-md font-medium text-destructive">Danger Zone</h4>
+              <p className="mt-1 text-sm text-destructive/80">
                 Irreversible actions that affect this workspace
               </p>
             </div>
             <div className="px-6 py-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h5 className="text-sm font-medium text-gray-900">Delete Workspace</h5>
-                  <p className="text-sm text-gray-500">
+                  <h5 className="text-sm font-medium text-foreground">Delete Workspace</h5>
+                  <p className="text-sm text-muted-foreground">
                     Once you delete a workspace, there is no going back. Please be certain.
                   </p>
                 </div>
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
-                  className="px-4 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  className="px-4 py-2 border border-destructive shadow-sm text-sm font-medium rounded-md text-destructive bg-background hover:bg-destructive/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-destructive transition-colors"
                 >
                   Delete Workspace
                 </button>
@@ -192,8 +192,8 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-background border border-border rounded-lg p-6 max-w-md w-full mx-4 shadow-lg">
             <div className="flex items-center mb-4">
               <div className="flex-shrink-0">
                 <svg className="h-6 w-6 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -201,15 +201,15 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
                 </svg>
               </div>
               <div className="ml-3">
-                <h3 className="text-lg font-medium text-gray-900">Delete Workspace</h3>
-                <p className="text-sm text-gray-500">
+                <h3 className="text-lg font-medium text-foreground">Delete Workspace</h3>
+                <p className="text-sm text-muted-foreground">
                   This action cannot be undone. This will permanently delete the workspace "{workspace.name}" and all its agents.
                 </p>
               </div>
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 Type the workspace name to confirm
               </label>
               <input
@@ -217,7 +217,7 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
                 value={deleteConfirmText}
                 onChange={(e) => setDeleteConfirmText(e.target.value)}
                 placeholder={workspace.name}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                className="block w-full px-3 py-2 border border-input bg-background rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm transition-colors"
               />
             </div>
 
@@ -227,7 +227,7 @@ export function WorkspaceSettings({ workspace, canDelete, onDelete }: WorkspaceS
                   setShowDeleteConfirm(false);
                   setDeleteConfirmText('');
                 }}
-                className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                className="px-4 py-2 border border-input bg-background text-foreground shadow-sm text-sm font-medium rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
               >
                 Cancel
               </button>

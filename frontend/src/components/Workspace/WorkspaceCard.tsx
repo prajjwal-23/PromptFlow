@@ -43,12 +43,12 @@ export function WorkspaceCard({
   };
 
   return (
-    <div className="bg-white shadow rounded-lg hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+    <div className="bg-background border border-border rounded-lg hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-primary/20">
       <div className="p-6">
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0" onClick={onClick}>
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-lg font-medium text-gray-900 truncate">
+              <h3 className="text-lg font-semibold text-foreground truncate">
                 {workspace.name}
               </h3>
               <span
@@ -61,12 +61,12 @@ export function WorkspaceCard({
             </div>
             
             {workspace.description && (
-              <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                 {workspace.description}
               </p>
             )}
             
-            <div className="flex items-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <svg
                   className="w-4 h-4"
@@ -113,7 +113,7 @@ export function WorkspaceCard({
                         e.stopPropagation();
                         onEdit();
                       }}
-                      className="p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-md"
+                      className="p-2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-md transition-colors"
                       title="Edit workspace"
                     >
                       <svg
@@ -138,7 +138,7 @@ export function WorkspaceCard({
                         e.stopPropagation();
                         onDelete();
                       }}
-                      className="p-2 text-red-400 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded-md"
+                      className="p-2 text-destructive hover:text-destructive/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-destructive rounded-md transition-colors"
                       title="Delete workspace"
                     >
                       <svg

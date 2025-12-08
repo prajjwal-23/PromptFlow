@@ -100,7 +100,7 @@ export function PremiumHero({
   };
 
   return (
-    <section className={`relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 ${className}`}>
+    <section className={`relative min-h-screen overflow-hidden bg-gradient-to-br from-background via-muted to-accent ${className}`}>
       {/* Three.js Background */}
       <ThreeScene />
       
@@ -108,7 +108,7 @@ export function PremiumHero({
       <div 
         className="absolute inset-0 z-10 opacity-30"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(79, 70, 229, 0.3) 0%, transparent 50%)`
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, hsl(var(--primary) / 0.3) 0%, transparent 50%)`
         }}
       />
       
@@ -132,10 +132,10 @@ export function PremiumHero({
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6"
+                    className="inline-flex items-center px-4 py-2 bg-muted/10 backdrop-blur-md rounded-full border border-border mb-6"
                   >
-                    <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />
-                    <span className="text-sm font-medium text-white/90">{subtitle}</span>
+                    <Sparkles className="w-4 h-4 text-primary mr-2" />
+                    <span className="text-sm font-medium text-foreground/90">{subtitle}</span>
                   </motion.div>
                 </motion.div>
 
@@ -143,7 +143,7 @@ export function PremiumHero({
                 <motion.div variants={itemVariants}>
                   <GradientText
                     className="text-5xl md:text-7xl font-bold mb-6"
-                    gradient="from-white via-blue-200 to-purple-200"
+                    gradient="from-foreground via-primary/80 to-accent/80"
                     animate
                   >
                     {title}
@@ -153,7 +153,7 @@ export function PremiumHero({
                 {/* Description with typewriter effect */}
                 <motion.div variants={itemVariants}>
                   <motion.p
-                    className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed"
+                    className="text-xl text-foreground/80 max-w-3xl mx-auto leading-relaxed"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
@@ -204,11 +204,11 @@ export function PremiumHero({
                         className="text-center group"
                       >
                         <div className="flex flex-col items-center space-y-2">
-                          <div className="p-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 group-hover:bg-white/20 transition-all duration-300">
-                            <stat.icon className="w-6 h-6 text-blue-400" />
+                          <div className="p-3 bg-muted/10 backdrop-blur-md rounded-xl border border-border group-hover:bg-muted/20 transition-all duration-300">
+                            <stat.icon className="w-6 h-6 text-primary" />
                           </div>
-                          <div className="text-2xl font-bold text-white">{stat.value}</div>
-                          <div className="text-sm text-white/60">{stat.label}</div>
+                          <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+                          <div className="text-sm text-muted-foreground">{stat.label}</div>
                         </div>
                       </motion.div>
                     ))}
@@ -220,7 +220,7 @@ export function PremiumHero({
                   variants={glowVariants}
                   initial="initial"
                   animate="animate"
-                  className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-3xl -z-10"
+                  className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/30 rounded-full blur-3xl -z-10"
                 />
               </motion.div>
             )}
@@ -234,9 +234,9 @@ export function PremiumHero({
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+        <div className="w-6 h-10 border-2 border-border/30 rounded-full flex justify-center">
           <motion.div
-            className="w-1 h-3 bg-white/60 rounded-full mt-2"
+            className="w-1 h-3 bg-muted-foreground/60 rounded-full mt-2"
             animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />

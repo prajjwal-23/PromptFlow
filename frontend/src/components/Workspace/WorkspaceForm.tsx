@@ -91,7 +91,7 @@ export function WorkspaceForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="name" className="block text-sm font-medium text-foreground">
           Workspace Name *
         </label>
         <div className="mt-1">
@@ -102,22 +102,22 @@ export function WorkspaceForm({
             required
             value={formData.name}
             onChange={handleChange}
-            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${
+            className={`block w-full appearance-none rounded-md border border-input bg-background px-3 py-2 placeholder-muted-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors ${
               formErrors.name
-                ? 'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:ring-primary'
+                ? 'border-destructive text-destructive placeholder-destructive/50 focus:border-destructive focus:ring-destructive'
+                : 'border-input focus:ring-primary'
             }`}
             placeholder="Enter workspace name"
             disabled={isSubmitting}
           />
           {formErrors.name && (
-            <p className="mt-2 text-sm text-red-600">{formErrors.name}</p>
+            <p className="mt-2 text-sm text-destructive">{formErrors.name}</p>
           )}
         </div>
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="description" className="block text-sm font-medium text-foreground">
           Description
         </label>
         <div className="mt-1">
@@ -127,36 +127,36 @@ export function WorkspaceForm({
             rows={4}
             value={formData.description}
             onChange={handleChange}
-            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${
+            className={`block w-full appearance-none rounded-md border border-input bg-background px-3 py-2 placeholder-muted-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors ${
               formErrors.description
-                ? 'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:ring-primary'
+                ? 'border-destructive text-destructive placeholder-destructive/50 focus:border-destructive focus:ring-destructive'
+                : 'border-input focus:ring-primary'
             }`}
             placeholder="Describe what this workspace is for (optional)"
             disabled={isSubmitting}
           />
           {formErrors.description && (
-            <p className="mt-2 text-sm text-red-600">{formErrors.description}</p>
+            <p className="mt-2 text-sm text-destructive">{formErrors.description}</p>
           )}
         </div>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-muted-foreground">
           Brief description to help team members understand the purpose of this workspace.
         </p>
       </div>
 
-      <div className="flex gap-3 justify-end pt-4 border-t border-gray-200">
+      <div className="flex gap-3 justify-end pt-4 border-t border-border">
         <button
           type="button"
           onClick={onCancel}
           disabled={isSubmitting}
-          className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 border border-input bg-background text-foreground shadow-sm text-sm font-medium rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isSubmitting ? (
             <div className="flex items-center gap-2">

@@ -46,12 +46,12 @@ export function AgentCard({
   };
 
   return (
-    <div className="bg-white shadow rounded-lg hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+    <div className="bg-background border border-border rounded-lg hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-primary/20">
       <div className="p-6">
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0" onClick={onClick}>
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-lg font-medium text-gray-900 truncate">
+              <h3 className="text-lg font-semibold text-foreground truncate">
                 {agent.name}
               </h3>
               <span
@@ -62,12 +62,12 @@ export function AgentCard({
             </div>
             
             {agent.description && (
-              <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                 {agent.description}
               </p>
             )}
             
-            <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
               <div className="flex items-center gap-1">
                 <svg
                   className="w-4 h-4"
@@ -120,7 +120,7 @@ export function AgentCard({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-gray-500">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span>Version {agent.version}</span>
               <span>•</span>
               <span>Created {formatDate(agent.created_at)}</span>
@@ -137,7 +137,7 @@ export function AgentCard({
                         e.stopPropagation();
                         onRun();
                       }}
-                      className="p-2 text-green-600 hover:text-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 rounded-md"
+                      className="p-2 text-green-600 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 rounded-md transition-colors"
                       title="Run agent"
                     >
                       <svg
@@ -168,7 +168,7 @@ export function AgentCard({
                         e.stopPropagation();
                         onEdit();
                       }}
-                      className="p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-md"
+                      className="p-2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-md transition-colors"
                       title="Edit agent"
                     >
                       <svg
@@ -193,7 +193,7 @@ export function AgentCard({
                         e.stopPropagation();
                         onDuplicate();
                       }}
-                      className="p-2 text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-md"
+                      className="p-2 text-primary hover:text-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-md transition-colors"
                       title="Duplicate agent"
                     >
                       <svg
@@ -218,7 +218,7 @@ export function AgentCard({
                         e.stopPropagation();
                         onDelete();
                       }}
-                      className="p-2 text-red-400 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded-md"
+                      className="p-2 text-red-500 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded-md transition-colors"
                       title="Delete agent"
                     >
                       <svg

@@ -110,10 +110,10 @@ export function LoginForm() {
             required
             value={formData.email}
             onChange={handleChange}
-            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${
+            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm ${
               formErrors.email
                 ? 'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:ring-primary'
+                : 'border-gray-300 focus:ring-yellow-400'
             }`}
             placeholder="Enter your email"
           />
@@ -136,10 +136,10 @@ export function LoginForm() {
             required
             value={formData.password}
             onChange={handleChange}
-            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${
+            className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm ${
               formErrors.password
                 ? 'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:ring-primary'
+                : 'border-gray-300 focus:ring-yellow-400'
             }`}
             placeholder="Enter your password"
           />
@@ -155,7 +155,7 @@ export function LoginForm() {
             id="remember-me"
             name="remember-me"
             type="checkbox"
-            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+            className="h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-400"
           />
           <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
             Remember me
@@ -163,7 +163,7 @@ export function LoginForm() {
         </div>
 
         <div className="text-sm">
-          <a href="#" className="font-medium text-primary hover:text-primary/80">
+          <a href="#" className="font-medium text-yellow-600 hover:text-yellow-500">
             Forgot your password?
           </a>
         </div>
@@ -173,7 +173,7 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex w-full justify-center rounded-md border border-transparent bg-yellow-400 px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <div className="flex items-center gap-2">

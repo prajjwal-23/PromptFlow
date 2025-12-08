@@ -111,7 +111,7 @@ export default function AgentsPage() {
             <p className="text-gray-600 mb-4">Please select a workspace to manage agents.</p>
             <button
               onClick={() => router.push('/workspaces')}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+              className="px-4 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500"
             >
               Go to Workspaces
             </button>
@@ -132,7 +132,7 @@ export default function AgentsPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <button
                     onClick={() => router.push('/workspaces')}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-500 hover:text-yellow-600"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -149,7 +149,7 @@ export default function AgentsPage() {
               </div>
               <button
                 onClick={() => setShowCreateForm(true)}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
               >
                 <svg
                   className="w-4 h-4 mr-2"
@@ -243,7 +243,7 @@ export default function AgentsPage() {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm"
+                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-yellow-400 focus:border-yellow-400 sm:text-sm"
                     placeholder="Search agents..."
                   />
                 </div>
@@ -257,9 +257,9 @@ export default function AgentsPage() {
                     <button
                       key={status}
                       onClick={() => setFilterStatus(status)}
-                      className={`relative inline-flex items-center px-3 py-2 border text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary ${
+                      className={`relative inline-flex items-center px-3 py-2 border text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-yellow-400 focus:border-yellow-400 ${
                         filterStatus === status
-                          ? 'bg-primary text-white border-primary'
+                          ? 'bg-yellow-400 text-black border-yellow-400'
                           : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                       } ${
                         status === 'all' ? 'rounded-l-md' : ''
@@ -281,7 +281,7 @@ export default function AgentsPage() {
           {/* Loading State */}
           {isLoading && (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400"></div>
             </div>
           )}
 
@@ -311,7 +311,7 @@ export default function AgentsPage() {
               <div className="mt-6">
                 <button
                   onClick={() => setShowCreateForm(true)}
-                  className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
                 >
                   <svg
                     className="w-4 h-4 mr-2"
